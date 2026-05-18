@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tour Detail — Discovery Adventures</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* ── TOUR DETAIL STYLES ──────────────────────────────── */
+.detail-hero {
+  padding-top: calc(var(--nav-h) + 3rem);
+  padding-bottom: 3rem;
+  background: var(--grad-dark);
+  position: relative;
+  overflow: hidden;
+}
+.detail-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 85% 20%, rgba(240,138,46,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 80%, rgba(44,199,193,0.2) 0%, transparent 50%);
+}
+.detail-hero-inner { position: relative; z-index: 1; }
+.detail-hero-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.5rem; }
+.detail-hero-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+.detail-hero-sub { font-size: 1rem; color: var(--text-muted); }
+.detail-quick-facts {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--glass-border);
+}
+.detail-fact {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.detail-fact-icon { font-size: 1.3rem; }
+.detail-fact-val {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: white;
+  letter-spacing: -0.01em;
+}
+.detail-fact-lbl { font-size: 0.72rem; color: var(--text-muted); }
+
+/* LAYOUT */
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2rem;
+  align-items: start;
+}
+.detail-left { min-width: 0; }
+
+/* SECTION BLOCK */
+.detail-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.detail-block-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.detail-block-icon { font-size: 1.2rem; }
+.detail-block-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: white;
+  letter-spacing: -0.01em;
+}
+.detail-block-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+/* TIMELINE */
+.timeline-list { padding: 1.5rem; list-style: none; }
+.tl-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.tl-item:last-child { margin-bottom: 0; }
+.tl-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 32px;
+}
+.tl-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--grad-main);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(240,138,46,0.4);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.tl-line {
+  width: 2px;
+  flex: 1;
+  min-height: 16px;
+  background: linear-gradient(to bottom, rgba(240,138,46,0.4), rgba(177,74,214,0.2));
+  margin-top: 4px;
+}
+.tl-card {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.1rem;
+}
+.tl-time {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--orange);
+  margin-bottom: 0.2rem;
+}
+.tl-step-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: white;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
+}
+.tl-step-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* INCLUSIONS GRID */
+.inclusions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  padding: 1.25rem 1.5rem;
+}
+.inclusion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba(44,199,193,0.06);
+  border: 1px solid rgba(44,199,193,0.2);
+  border-radius: 10px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.83rem;
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+  line-height: 1.3;
+}
+.inclusion-check {
+  color: var(--teal);
+  font-weight: 900;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* EXCLUSIONS CALLOUT */
+.exclusions-callout {
+  margin: 0 1.5rem 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255,210,74,0.08);
+  border: 1px solid rgba(255,210,74,0.3);
+  border-radius: 14px;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.exclusions-icon { font-size: 1.2rem; flex-shrink: 0; }
+.exclusions-text { font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
+.exclusions-text strong { color: var(--yellow); font-weight: 700; }
+
+/* SAFETY STRIP */
+.safety-strip {
+  margin: 0 1.5rem 1.5rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(44,199,193,0.15), rgba(132,216,80,0.12));
+  border: 1px solid rgba(44,199,193,0.3);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.safety-text { font-size: 0.83rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+.safety-text strong { display: block; font-weight: 800; color: var(--teal); margin-bottom: 0.15rem; }
+
+/* BOOKING WIDGET */
+.booking-widget {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.5rem);
+  background: linear-gradient(160deg, #1e2f52 0%, #2a1a3a 100%);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  overflow: hidden;
+}
+.booking-widget-header {
+  background: var(--grad-main);
+  padding: 1.5rem;
+  text-align: center;
+}
+.booking-price-from {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 0.25rem;
+}
+.booking-price-amount {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  letter-spacing: -0.04em;
+  color: white;
+  line-height: 1;
+}
+.booking-price-amount sup { font-size: 1.4rem; vertical-align: top; margin-top: 0.5rem; }
+.booking-price-note { font-size: 0.78rem; color: rgba(255,255,255,0.75); margin-top: 0.35rem; }
+.booking-spots-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-top: 0.75rem;
+}
+.booking-form { padding: 1.5rem; }
+.booking-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--glass-border);
+}
+.booking-total-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+.booking-total-val {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--yellow);
+  letter-spacing: -0.02em;
+}
+.btn-book {
+  width: 100%;
+  padding: 1rem;
+  background: var(--grad-main);
+  color: white;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 28px rgba(236,58,107,0.45);
+  border: none;
+  cursor: pointer;
+}
+.btn-book:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(236,58,107,0.55); }
+
+/* BOOKING CONFIRMED MODAL */
+.modal-confirmed { text-align: center; }
+.modal-confetti { font-size: 3rem; margin-bottom: 1rem; }
+.modal-booking-id {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  letter-spacing: -0.02em;
+  background: var(--grad-main);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+.modal-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+.modal-sub { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
+.booking-summary {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+.booking-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.booking-summary-row:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,0.06); }
+.booking-summary-row strong { color: white; font-weight: 600; }
+.modal-close-btn {
+  width: 100%;
+  padding: 0.85rem;
+  background: var(--grad-main);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.modal-close-btn:hover { transform: scale(1.02); }
+
+/* NOT FOUND */
+.not-found-msg {
+  text-align: center;
+  padding: 8rem 2rem;
+  color: var(--text-muted);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) { .detail-layout { grid-template-columns: 1fr; } .booking-widget { position: static; } }
+@media (max-width: 600px) { .inclusions-grid { grid-template-columns: 1fr; } .detail-quick-facts { gap: 1rem; } }
+</style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ─────────────────────────────────────── -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-badge">🧭</div>
+      <span class="nav-logo-name">Discovery Adventures</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="tours.html" class="nav-link">Tours</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="tours.html" class="nav-cta">Book Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── DYNAMIC CONTENT ────────────────────────────────── -->
+<div id="pageContent">
+  <!-- Injected by JS -->
+</div>
+
+<!-- ── BOOKING CONFIRMED MODAL ────────────────────────── -->
+<div class="modal-overlay" id="bookingModal" role="dialog" aria-modal="true" aria-label="Booking Confirmed">
+  <div class="modal-box modal-confirmed">
+    <div class="modal-confetti">🎉</div>
+    <div class="modal-booking-id" id="modalBookingId"></div>
+    <div class="modal-title">Booking Confirmed!</div>
+    <p class="modal-sub">Your adventure is locked in. Check your email for details, or screenshot this confirmation.</p>
+    <div class="booking-summary" id="modalSummary"></div>
+    <button class="modal-close-btn" id="modalCloseBtn">Awesome — Back to Tour</button>
+  </div>
+</div>
+
+<!-- ── SITE FOOTER ─────────────────────────────────────── -->
+<footer class="site-footer" id="siteFooter" style="display:none">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="nav-logo" style="display:inline-flex; margin-bottom:0.5rem;">
+          <div class="nav-logo-badge">🧭</div>
+          <span class="nav-logo-name" style="font-size:1.1rem;">Discovery Adventures</span>
+        </a>
+        <p class="footer-brand-desc">Expert-guided Canadian day trips. All-inclusive, safety-first, unforgettable.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="tours.html">All Tours</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="blog.html">Blog</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Adventures</div>
+        <div class="footer-links">
+          <a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a>
+          <a href="tour-detail.html?tour=banff-lake-louise">Banff & Lake Louise</a>
+          <a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a>
+          <a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">📞</span>
+          <div><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">✉️</span>
+          <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">© 2026 Discovery Adventures · All prices in CAD · All sales final · Subject to availability</div>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="Facebook">👥</a>
+        <a href="https://wa.me/16472672948" aria-label="WhatsApp">💬</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ──────────────────────────────────────────── -->
+<script src="js/data.js"></script>
+<script>
+/* ── PARSE URL PARAMS ────────────────────────────────── */
+const params = getQueryParams();
+const tourId = params.tour || '';
+const preDate = params.date || '';
+const tour = getTourById(tourId);
+
+/* ── NAV TOGGLE ──────────────────────────────────────── */
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* ── RENDER PAGE ─────────────────────────────────────── */
+if (!tour) {
+  document.getElementById('pageContent').innerHTML = `
+    <div style="padding-top:calc(var(--nav-h)+2rem)">
+      <div class="container not-found-msg">
+        <div style="font-size:4rem;margin-bottom:1rem;">🔍</div>
+        <h1 style="font-family:'Nunito',sans-serif;font-weight:900;color:white;margin-bottom:1rem;">Tour Not Found</h1>
+        <p>We couldn't find that tour. <a href="tours.html" style="color:var(--yellow)">Browse all tours →</a></p>
+      </div>
+    </div>`;
+} else {
+  document.title = `${tour.title} — Discovery Adventures`;
+  document.getElementById('siteFooter').style.display = '';
+
+  const diffClass = {'Easy':'pill-teal','Moderate':'pill-orange','Easy–Moderate':'pill-yellow'}[tour.difficulty]||'pill-glass';
+
+  // Build timeline HTML
+  const timelineHTML = tour.itinerary.map((step, i) => {
+    const isLast = i === tour.itinerary.length - 1;
+    return `
+      <li class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot">${i+1}</div>
+          ${!isLast ? '<div class="tl-line"></div>' : ''}
+        </div>
+        <div class="tl-card">
+          <div class="tl-time">${step.time}</div>
+          <div class="tl-step-title">${step.title}</div>
+          <div class="tl-step-desc">${step.desc}</div>
+        </div>
+      </li>`;
+  }).join('');
+
+  // Build inclusions HTML
+  const inclusionsHTML = tour.inclusions.map(inc =>
+    `<div class="inclusion-item"><span class="inclusion-check">✓</span>${inc}</div>`
+  ).join('');
+
+  // Build date options
+  const dateOptionsHTML = tour.availableDates.map(d =>
+    `<option value="${d}" ${d === preDate ? 'selected' : ''}>${formatDate(d)}</option>`
+  ).join('');
+
+  document.getElementById('pageContent').innerHTML = `
+    <!-- HERO -->
+    <section class="detail-hero">
+      <div class="container detail-hero-inner">
+        <div><a href="tours.html" style="color:var(--text-muted);font-size:0.85rem;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:1.5rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--text-muted)'">← Back to All Tours</a></div>
+        <div class="detail-hero-badges">
+          <span class="pill pill-glass">⏱ ${tour.duration} hours</span>
+          <span class="pill pill-glass">👥 Max ${tour.maxCapacity} guests</span>
+          <span class="pill ${diffClass}">${tour.difficulty}</span>
+          <span class="pill pill-orange">🔥 Popular</span>
+        </div>
+        <h1 class="detail-hero-title">${tour.emoji} ${tour.title}</h1>
+        <p class="detail-hero-sub">${tour.subtitle}</p>
+        <div class="detail-quick-facts">
+          <div class="detail-fact">
+            <span class="detail-fact-icon">💰</span>
+            <div>
+              <div class="detail-fact-val">$${tour.price} CAD</div>
+              <div class="detail-fact-lbl">Per person · All-in</div>
+            </div>
+          </div>
+          <div class="detail-fact">
+            <span class="detail-fact-icon">📅</span>
+            <div>
+              <div class="detail-fact-val">${tour.availableDates.length} dates</div>
+              <div class="detail-fact-lbl">Available in 2026</div>
+            </div>
+          </div>
+          <div class="detail-fact">
+            <span class="detail-fact-icon">📍</span>
+            <div>
+              <div class="detail-fact-val">${tour.subtitle.split('·')[0].trim()}</div>
+              <div class="detail-fact-lbl">Departure point</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <section style="background:linear-gradient(180deg,#0f1929 0%,var(--navy) 100%); padding:3rem 0 5rem;">
+      <div class="container">
+        <div class="detail-layout">
+          <!-- LEFT COLUMN -->
+          <div class="detail-left">
+            <!-- ITINERARY -->
+            <div class="detail-block">
+              <div class="detail-block-header">
+                <span class="detail-block-icon">🗓️</span>
+                <div>
+                  <span class="detail-block-eyebrow">Your day, hour by hour</span>
+                  <div class="detail-block-title">Full Day Itinerary</div>
+                </div>
+              </div>
+              <ul class="timeline-list">${timelineHTML}</ul>
+            </div>
+
+            <!-- INCLUSIONS -->
+            <div class="detail-block">
+              <div class="detail-block-header">
+                <span class="detail-block-icon">✅</span>
+                <div>
+                  <span class="detail-block-eyebrow">All covered</span>
+                  <div class="detail-block-title">What's Included</div>
+                </div>
+              </div>
+              <div class="inclusions-grid">${inclusionsHTML}</div>
+            </div>
+
+            <!-- EXCLUSIONS -->
+            <div class="exclusions-callout">
+              <div class="exclusions-icon">🍔</div>
+              <div class="exclusions-text">
+                <strong>Not Included: </strong>${tour.exclusions}
+              </div>
+            </div>
+
+            <!-- IMPORTANT NOTES -->
+            <div class="exclusions-callout" style="background:rgba(177,74,214,0.08); border-color:rgba(177,74,214,0.3);">
+              <div class="exclusions-icon">📌</div>
+              <div class="exclusions-text">
+                <strong style="color:var(--purple);">Important Notes: </strong>${tour.importantNotes}
+              </div>
+            </div>
+
+            <!-- SAFETY -->
+            <div class="safety-strip">
+              <span style="font-size:2rem;">🛡️</span>
+              <div class="safety-text">
+                <strong>Safety First, Always</strong>
+                Certified guides, fully-insured vehicles, top-grade gear, and a 4.9★ safety rating across 4,800+ trips.
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: BOOKING WIDGET -->
+          <aside>
+            <div class="booking-widget">
+              <div class="booking-widget-header">
+                <div class="booking-price-from">From</div>
+                <div class="booking-price-amount"><sup>$</sup>${tour.price}</div>
+                <div class="booking-price-note">per person · all-in · no hidden fees</div>
+                <div class="booking-spots-badge">🔥 Limited spots per departure</div>
+              </div>
+              <div class="booking-form">
+                <!-- DATE SELECT -->
+                <div class="form-group">
+                  <label class="form-label" for="bookingDate">Select Date</label>
+                  <select class="form-input" id="bookingDate">
+                    <option value="">— Choose a departure date —</option>
+                    ${dateOptionsHTML}
+                  </select>
+                  <div class="form-error" id="errDate">Please select a date.</div>
+                </div>
+
+                <!-- GUESTS -->
+                <div class="form-group">
+                  <label class="form-label" for="bookingGuests">Number of Guests</label>
+                  <select class="form-input" id="bookingGuests">
+                    ${Array.from({length: tour.maxCapacity}, (_,i) =>
+                      `<option value="${i+1}">${i+1} guest${i>0?'s':''}</option>`
+                    ).join('')}
+                  </select>
+                </div>
+
+                <!-- TOTAL PRICE -->
+                <div class="booking-total-row">
+                  <span class="booking-total-label">Total Cost</span>
+                  <span class="booking-total-val" id="bookingTotal">$${tour.price} CAD</span>
+                </div>
+
+                <div style="border-top:1px solid var(--glass-border); padding-top:1.25rem; margin-bottom:1.25rem;">
+                  <div style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:1rem;">Passenger Details</div>
+
+                  <div class="form-group">
+                    <label class="form-label" for="bookingName">Full Name</label>
+                    <input class="form-input" type="text" id="bookingName" placeholder="Jane Smith" autocomplete="name"/>
+                    <div class="form-error" id="errName">Please enter your full name.</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="bookingEmail">Email Address</label>
+                    <input class="form-input" type="email" id="bookingEmail" placeholder="jane@example.com" autocomplete="email"/>
+                    <div class="form-error" id="errEmail">Please enter a valid email.</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="bookingPhone">Phone / WhatsApp</label>
+                    <input class="form-input" type="tel" id="bookingPhone" placeholder="+1 (647) 000-0000" autocomplete="tel"/>
+                    <div class="form-error" id="errPhone">Please enter your phone number.</div>
+                  </div>
+                </div>
+
+                <button class="btn-book" id="confirmBookingBtn">
+                  🎒 Confirm Booking
+                </button>
+                <div style="text-align:center; margin-top:0.85rem; font-size:0.75rem; color:var(--text-dim);">
+                  🔒 Secure · No payment required now · We'll contact you within 24h
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>`;
+
+  /* ── PRICE CALCULATOR ──────────────────────────────── */
+  function updateTotal() {
+    const guests = parseInt(document.getElementById('bookingGuests').value, 10) || 1;
+    const total  = guests * tour.price;
+    document.getElementById('bookingTotal').textContent = `$${total.toLocaleString()} CAD`;
+  }
+  document.getElementById('bookingGuests').addEventListener('change', updateTotal);
+
+  /* ── FORM VALIDATION & SUBMISSION ─────────────────── */
+  document.getElementById('confirmBookingBtn').addEventListener('click', () => {
+    const date   = document.getElementById('bookingDate').value;
+    const guests = document.getElementById('bookingGuests').value;
+    const name   = document.getElementById('bookingName').value.trim();
+    const email  = document.getElementById('bookingEmail').value.trim();
+    const phone  = document.getElementById('bookingPhone').value.trim();
+
+    let valid = true;
+
+    // Validate each field
+    const setErr = (id, errId, condition) => {
+      const el  = document.getElementById(id);
+      const err = document.getElementById(errId);
+      if (condition) {
+        el.classList.add('error');
+        err.classList.add('visible');
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('visible');
+      }
+    };
+
+    setErr('bookingDate',   'errDate',  !date);
+    setErr('bookingName',   'errName',  name.length < 2);
+    setErr('bookingEmail',  'errEmail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    setErr('bookingPhone',  'errPhone', phone.length < 7);
+
+    if (!valid) return;
+
+    // Save booking to localStorage
+    const bookingId = generateBookingId();
+    const booking = {
+      id: bookingId,
+      tourId: tour.id,
+      tourTitle: tour.title,
+      date,
+      dateFormatted: formatDate(date),
+      guests: parseInt(guests,10),
+      totalCost: parseInt(guests,10) * tour.price,
+      name, email, phone,
+      bookedAt: new Date().toISOString()
+    };
+    const history = JSON.parse(localStorage.getItem('da_bookings') || '[]');
+    history.push(booking);
+    localStorage.setItem('da_bookings', JSON.stringify(history));
+
+    // Populate and show modal
+    document.getElementById('modalBookingId').textContent = bookingId;
+    document.getElementById('modalSummary').innerHTML = `
+      <div class="booking-summary-row"><span>Tour</span><strong>${booking.tourTitle}</strong></div>
+      <div class="booking-summary-row"><span>Date</span><strong>${booking.dateFormatted}</strong></div>
+      <div class="booking-summary-row"><span>Guests</span><strong>${booking.guests}</strong></div>
+      <div class="booking-summary-row"><span>Name</span><strong>${booking.name}</strong></div>
+      <div class="booking-summary-row"><span>Contact</span><strong>${booking.email}</strong></div>
+      <div class="booking-summary-row"><span>Total</span><strong style="color:var(--yellow);">$${booking.totalCost} CAD</strong></div>
+    `;
+    document.getElementById('bookingModal').classList.add('active');
+  });
+
+  document.getElementById('modalCloseBtn').addEventListener('click', () => {
+    document.getElementById('bookingModal').classList.remove('active');
+  });
+  document.getElementById('bookingModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('bookingModal')) {
+      document.getElementById('bookingModal').classList.remove('active');
+    }
+  });
+
+  /* ── LIVE PRICE UPDATE ON LOAD ──────────────────────── */
+  updateTotal();
+}
+</script>
+</body>
+</html>

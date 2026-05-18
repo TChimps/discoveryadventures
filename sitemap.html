@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Site Map — Discovery Adventures</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* ── SITEMAP STYLES ──────────────────────────────────── */
+.sitemap-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.sitemap-node {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.sitemap-node-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.sitemap-node-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.sitemap-node-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: white;
+  letter-spacing: -0.01em;
+}
+.sitemap-node-url {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.1rem;
+  font-family: monospace;
+}
+.sitemap-children {
+  padding: 0.75rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.sitemap-child {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  transition: background 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+.sitemap-child:hover { background: rgba(255,255,255,0.07); }
+.sitemap-child-icon { font-size: 0.9rem; flex-shrink: 0; }
+.sitemap-child-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+}
+.sitemap-child-desc {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 0.1rem;
+}
+
+/* CONNECTOR LINES */
+.sitemap-connector {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+}
+.sitemap-connector-line {
+  width: 2px;
+  background: linear-gradient(to bottom, var(--orange), rgba(177,74,214,0.3));
+  margin-left: 1.3rem;
+  border-radius: 1px;
+}
+
+/* GRAND ROOT */
+.sitemap-root {
+  background: var(--grad-main);
+  border-radius: 22px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.sitemap-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.1), transparent 60%);
+}
+.sitemap-root-inner { position: relative; z-index: 1; }
+.sitemap-root-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  letter-spacing: -0.03em;
+  color: white;
+  margin-bottom: 0.35rem;
+}
+.sitemap-root-sub { font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+.sitemap-root-url {
+  font-family: monospace;
+  font-size: 0.8rem;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* TREE LINES */
+.tree-connector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.tree-v-line {
+  width: 2px;
+  height: 32px;
+  background: linear-gradient(to bottom, var(--orange), rgba(236,58,107,0.6));
+  border-radius: 1px;
+}
+.tree-h-line {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0 80px;
+}
+.tree-branch {
+  width: 2px;
+  height: 32px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 1px;
+}
+
+/* TAGS */
+.sitemap-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-left: auto;
+}
+.tag-new { background: rgba(132,216,80,0.2); color: var(--green); }
+.tag-dynamic { background: rgba(44,199,193,0.2); color: var(--teal); }
+.tag-js { background: rgba(255,210,74,0.2); color: var(--yellow); }
+
+/* LEGEND */
+.sitemap-legend {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+}
+.legend-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.legend-item { display: flex; align-items: center; gap: 0.45rem; font-size: 0.78rem; color: var(--text-muted); }
+
+/* RESPONSIVE */
+@media (max-width: 960px) { .sitemap-layout { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .sitemap-layout { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ─────────────────────────────────────── -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-badge">🧭</div>
+      <span class="nav-logo-name">Discovery Adventures</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="tours.html" class="nav-link">Tours</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="tours.html" class="nav-cta">Book Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── PAGE HERO ───────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="container page-hero-inner">
+    <div class="section-eyebrow">🗂️ Architecture Overview</div>
+    <h1 class="section-title" style="font-size:clamp(2.5rem,6vw,4rem);">Site Map</h1>
+    <p class="section-subtitle">A complete visual overview of all pages, sections, and features that make up the Discovery Adventures website.</p>
+  </div>
+</section>
+
+<!-- ── SITEMAP ────────────────────────────────────────── -->
+<section class="section" style="background:linear-gradient(180deg,#0f1929 0%,var(--navy) 100%);">
+  <div class="container">
+
+    <!-- Root Node -->
+    <div class="sitemap-root">
+      <div class="sitemap-root-inner">
+        <div style="font-size:2.5rem; margin-bottom:0.75rem;">🧭</div>
+        <div class="sitemap-root-title">Discovery Adventures</div>
+        <div class="sitemap-root-sub">Canada's Premier Day-Trip & Adventure Tour Agency</div>
+        <div class="sitemap-root-url">discoveryadventures.ca/</div>
+      </div>
+    </div>
+
+    <!-- Visual connector -->
+    <div class="tree-connector"><div class="tree-v-line"></div></div>
+
+    <!-- Page Nodes -->
+    <nav class="sitemap-layout" aria-label="Site map">
+
+      <!-- HOME -->
+      <div class="sitemap-node">
+        <div class="sitemap-node-header">
+          <div class="sitemap-node-icon" style="background:linear-gradient(135deg,rgba(240,138,46,0.2),rgba(236,58,107,0.15)); border:1px solid rgba(240,138,46,0.3);">🏠</div>
+          <div>
+            <div class="sitemap-node-title">Home</div>
+            <div class="sitemap-node-url">index.html</div>
+          </div>
+        </div>
+        <ul class="sitemap-children">
+          <li><a class="sitemap-child" href="index.html#hero">
+            <span class="sitemap-child-icon">✨</span>
+            <div>
+              <div class="sitemap-child-label">Hero Section</div>
+              <div class="sitemap-child-desc">Full-screen CTA with animated particles</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+          <li><a class="sitemap-child" href="index.html#tours">
+            <span class="sitemap-child-icon">🗺️</span>
+            <div>
+              <div class="sitemap-child-label">Trending Adventures Grid</div>
+              <div class="sitemap-child-desc">Dynamic 4-card tour showcase</div>
+            </div>
+            <span class="sitemap-tag tag-dynamic">Dynamic</span>
+          </a></li>
+          <li><a class="sitemap-child" href="index.html">
+            <span class="sitemap-child-icon">💎</span>
+            <div>
+              <div class="sitemap-child-label">Why Choose Us</div>
+              <div class="sitemap-child-desc">6-card value proposition grid</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="index.html">
+            <span class="sitemap-child-icon">📖</span>
+            <div>
+              <div class="sitemap-child-label">Blog Preview Grid</div>
+              <div class="sitemap-child-desc">Latest 3 articles from the blog</div>
+            </div>
+            <span class="sitemap-tag tag-dynamic">Dynamic</span>
+          </a></li>
+          <li><a class="sitemap-child" href="index.html">
+            <span class="sitemap-child-icon">📣</span>
+            <div>
+              <div class="sitemap-child-label">CTA Strip</div>
+              <div class="sitemap-child-desc">Conversion-focused call to action</div>
+            </div>
+          </a></li>
+        </ul>
+      </div>
+
+      <!-- TOURS -->
+      <div class="sitemap-node">
+        <div class="sitemap-node-header">
+          <div class="sitemap-node-icon" style="background:linear-gradient(135deg,rgba(44,199,193,0.2),rgba(78,167,255,0.15)); border:1px solid rgba(44,199,193,0.3);">🗺️</div>
+          <div>
+            <div class="sitemap-node-title">Browse Tours</div>
+            <div class="sitemap-node-url">tours.html</div>
+          </div>
+        </div>
+        <ul class="sitemap-children">
+          <li><a class="sitemap-child" href="tours.html">
+            <span class="sitemap-child-icon">🔍</span>
+            <div>
+              <div class="sitemap-child-label">Filter Bar</div>
+              <div class="sitemap-child-desc">Filter by difficulty, sort by price</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+          <li><a class="sitemap-child" href="tours.html">
+            <span class="sitemap-child-icon">📋</span>
+            <div>
+              <div class="sitemap-child-label">Tour Catalog Grid</div>
+              <div class="sitemap-child-desc">Dynamic 2-col catalog with highlights</div>
+            </div>
+            <span class="sitemap-tag tag-dynamic">Dynamic</span>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=niagara-falls">
+            <span class="sitemap-child-icon">🌊</span>
+            <div>
+              <div class="sitemap-child-label">→ Niagara Falls Detail</div>
+              <div class="sitemap-child-desc">$65 · 12h · Easy · Max 10</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=banff-lake-louise">
+            <span class="sitemap-child-icon">🏔️</span>
+            <div>
+              <div class="sitemap-child-label">→ Banff & Lake Louise Detail</div>
+              <div class="sitemap-child-desc">$120 · 10h · Moderate · Max 12</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=algonquin-canoe">
+            <span class="sitemap-child-icon">🛶</span>
+            <div>
+              <div class="sitemap-child-label">→ Algonquin Park Detail</div>
+              <div class="sitemap-child-desc">$95 · 11h · Moderate · Max 8</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=bruce-peninsula">
+            <span class="sitemap-child-icon">⛵</span>
+            <div>
+              <div class="sitemap-child-label">→ Bruce Peninsula Detail</div>
+              <div class="sitemap-child-desc">$110 · 13h · Easy-Moderate · Max 10</div>
+            </div>
+          </a></li>
+        </ul>
+      </div>
+
+      <!-- CALENDAR -->
+      <div class="sitemap-node">
+        <div class="sitemap-node-header">
+          <div class="sitemap-node-icon" style="background:linear-gradient(135deg,rgba(255,210,74,0.2),rgba(240,138,46,0.15)); border:1px solid rgba(255,210,74,0.3);">📅</div>
+          <div>
+            <div class="sitemap-node-title">Adventure Calendar</div>
+            <div class="sitemap-node-url">calendar.html</div>
+          </div>
+        </div>
+        <ul class="sitemap-children">
+          <li><a class="sitemap-child" href="calendar.html">
+            <span class="sitemap-child-icon">🗓️</span>
+            <div>
+              <div class="sitemap-child-label">Full-Month Grid View</div>
+              <div class="sitemap-child-desc">Custom JS calendar, month navigation</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+          <li><a class="sitemap-child" href="calendar.html">
+            <span class="sitemap-child-icon">🔵</span>
+            <div>
+              <div class="sitemap-child-label">Dynamic Event Mapping</div>
+              <div class="sitemap-child-desc">Tour dates auto-plotted from database</div>
+            </div>
+            <span class="sitemap-tag tag-dynamic">Dynamic</span>
+          </a></li>
+          <li><a class="sitemap-child" href="calendar.html">
+            <span class="sitemap-child-icon">📍</span>
+            <div>
+              <div class="sitemap-child-label">Upcoming Departures Sidebar</div>
+              <div class="sitemap-child-desc">Next 8 departures across all tours</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="calendar.html">
+            <span class="sitemap-child-icon">💡</span>
+            <div>
+              <div class="sitemap-child-label">Booking Tips Panel</div>
+              <div class="sitemap-child-desc">Guidance for prospective bookers</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html">
+            <span class="sitemap-child-icon">↗️</span>
+            <div>
+              <div class="sitemap-child-label">Day Click → Tour Detail</div>
+              <div class="sitemap-child-desc">Date pre-selected in booking widget</div>
+            </div>
+          </a></li>
+        </ul>
+      </div>
+
+      <!-- TOUR DETAIL -->
+      <div class="sitemap-node">
+        <div class="sitemap-node-header">
+          <div class="sitemap-node-icon" style="background:linear-gradient(135deg,rgba(177,74,214,0.2),rgba(236,58,107,0.15)); border:1px solid rgba(177,74,214,0.3);">🎒</div>
+          <div>
+            <div class="sitemap-node-title">Tour Detail & Booking</div>
+            <div class="sitemap-node-url">tour-detail.html?tour=[id]</div>
+          </div>
+        </div>
+        <ul class="sitemap-children">
+          <li><a class="sitemap-child" href="tour-detail.html?tour=niagara-falls">
+            <span class="sitemap-child-icon">🏷️</span>
+            <div>
+              <div class="sitemap-child-label">Dynamic Tour Hero</div>
+              <div class="sitemap-child-desc">Title, badges, price, quick facts</div>
+            </div>
+            <span class="sitemap-tag tag-dynamic">Dynamic</span>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=niagara-falls">
+            <span class="sitemap-child-icon">🗓️</span>
+            <div>
+              <div class="sitemap-child-label">Interactive Timeline</div>
+              <div class="sitemap-child-desc">Hour-by-hour itinerary with gradient steps</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=niagara-falls">
+            <span class="sitemap-child-icon">✅</span>
+            <div>
+              <div class="sitemap-child-label">Inclusions & Exclusions</div>
+              <div class="sitemap-child-desc">Grid + callout boxes</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=niagara-falls">
+            <span class="sitemap-child-icon">💳</span>
+            <div>
+              <div class="sitemap-child-label">Sticky Booking Widget</div>
+              <div class="sitemap-child-desc">Date, guests, real-time pricing, form</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+          <li><a class="sitemap-child" href="tour-detail.html?tour=niagara-falls">
+            <span class="sitemap-child-icon">🎉</span>
+            <div>
+              <div class="sitemap-child-label">Booking Confirmed Modal</div>
+              <div class="sitemap-child-desc">Glassmorphic overlay, localStorage save</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+        </ul>
+      </div>
+
+      <!-- BLOG -->
+      <div class="sitemap-node">
+        <div class="sitemap-node-header">
+          <div class="sitemap-node-icon" style="background:linear-gradient(135deg,rgba(132,216,80,0.2),rgba(44,199,193,0.15)); border:1px solid rgba(132,216,80,0.3);">📖</div>
+          <div>
+            <div class="sitemap-node-title">Blog</div>
+            <div class="sitemap-node-url">blog.html</div>
+          </div>
+        </div>
+        <ul class="sitemap-children">
+          <li><a class="sitemap-child" href="blog.html">
+            <span class="sitemap-child-icon">⭐</span>
+            <div>
+              <div class="sitemap-child-label">Featured Article</div>
+              <div class="sitemap-child-desc">Highlighted hero post with large visual</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="blog.html">
+            <span class="sitemap-child-icon">🔖</span>
+            <div>
+              <div class="sitemap-child-label">Category Filter Tags</div>
+              <div class="sitemap-child-desc">Travel Tips · Destination Guides · Safety</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+          <li><a class="sitemap-child" href="blog.html">
+            <span class="sitemap-child-icon">📰</span>
+            <div>
+              <div class="sitemap-child-label">Magazine Article Grid</div>
+              <div class="sitemap-child-desc">3-col responsive masonry layout</div>
+            </div>
+            <span class="sitemap-tag tag-dynamic">Dynamic</span>
+          </a></li>
+          <li><a class="sitemap-child" href="blog.html">
+            <span class="sitemap-child-icon">📬</span>
+            <div>
+              <div class="sitemap-child-label">Newsletter Signup</div>
+              <div class="sitemap-child-desc">Email capture with validation</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+        </ul>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="sitemap-node">
+        <div class="sitemap-node-header">
+          <div class="sitemap-node-icon" style="background:linear-gradient(135deg,rgba(236,58,107,0.2),rgba(240,138,46,0.15)); border:1px solid rgba(236,58,107,0.3);">💬</div>
+          <div>
+            <div class="sitemap-node-title">Contact</div>
+            <div class="sitemap-node-url">contact.html</div>
+          </div>
+        </div>
+        <ul class="sitemap-children">
+          <li><a class="sitemap-child" href="contact.html">
+            <span class="sitemap-child-icon">📞</span>
+            <div>
+              <div class="sitemap-child-label">Contact Info Panel</div>
+              <div class="sitemap-child-desc">Phone, email, location, social</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="contact.html">
+            <span class="sitemap-child-icon">⚡</span>
+            <div>
+              <div class="sitemap-child-label">Quick Action Buttons</div>
+              <div class="sitemap-child-desc">WhatsApp · Email · Call · Maps</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="contact.html">
+            <span class="sitemap-child-icon">🗺️</span>
+            <div>
+              <div class="sitemap-child-label">Map Placeholder</div>
+              <div class="sitemap-child-desc">Links to Google Maps</div>
+            </div>
+          </a></li>
+          <li><a class="sitemap-child" href="contact.html">
+            <span class="sitemap-child-icon">📝</span>
+            <div>
+              <div class="sitemap-child-label">Inquiry Form</div>
+              <div class="sitemap-child-desc">Name, email, subject, message + validation</div>
+            </div>
+            <span class="sitemap-tag tag-js">JS</span>
+          </a></li>
+          <li><a class="sitemap-child" href="contact.html">
+            <span class="sitemap-child-icon">❓</span>
+            <div>
+              <div class="sitemap-child-label">FAQ Section</div>
+              <div class="sitemap-child-desc">6 common questions answered</div>
+            </div>
+          </a></li>
+        </ul>
+      </div>
+
+    </nav>
+
+    <!-- Legend -->
+    <div class="sitemap-legend">
+      <span class="legend-title">Legend:</span>
+      <span class="legend-item"><span class="sitemap-tag tag-js" style="margin:0;">JS</span> JavaScript-powered interactive feature</span>
+      <span class="legend-item"><span class="sitemap-tag tag-dynamic" style="margin:0;">Dynamic</span> Content injected from central data.js database</span>
+      <span class="legend-item">→ Indicates a page-to-page navigation relationship</span>
+    </div>
+
+    <!-- Shared Components -->
+    <div style="margin-top:3rem;">
+      <div class="section-eyebrow text-center" style="text-align:center; margin-bottom:1.25rem;">Shared Components (All Pages)</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem;">
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:14px; padding:1.25rem; text-align:center;">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">🧭</div>
+          <div style="font-weight:700; font-size:0.9rem; color:white; margin-bottom:0.25rem;">Site Navigation</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">Fixed glassmorphic nav with mobile hamburger menu</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:14px; padding:1.25rem; text-align:center;">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">📚</div>
+          <div style="font-weight:700; font-size:0.9rem; color:white; margin-bottom:0.25rem;">Tours Database</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">js/data.js — central source for all tour content</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:14px; padding:1.25rem; text-align:center;">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">🎨</div>
+          <div style="font-weight:700; font-size:0.9rem; color:white; margin-bottom:0.25rem;">Design System</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">css/style.css — shared tokens, components, layouts</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:14px; padding:1.25rem; text-align:center;">
+          <div style="font-size:1.5rem; margin-bottom:0.5rem;">🦶</div>
+          <div style="font-weight:700; font-size:0.9rem; color:white; margin-bottom:0.25rem;">Site Footer</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">Contact info, navigation, legal, social links</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SITE FOOTER ─────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="nav-logo" style="display:inline-flex; margin-bottom:0.5rem;">
+          <div class="nav-logo-badge">🧭</div>
+          <span class="nav-logo-name" style="font-size:1.1rem;">Discovery Adventures</span>
+        </a>
+        <p class="footer-brand-desc">Expert-guided Canadian day trips. All-inclusive, safety-first, unforgettable.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="tours.html">All Tours</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="blog.html">Blog</a>
+          <a href="contact.html">Contact</a>
+          <a href="sitemap.html">Site Map</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Adventures</div>
+        <div class="footer-links">
+          <a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a>
+          <a href="tour-detail.html?tour=banff-lake-louise">Banff & Lake Louise</a>
+          <a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a>
+          <a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">📞</span>
+          <div><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">✉️</span>
+          <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">© 2026 Discovery Adventures · All prices in CAD · All sales final · Subject to availability</div>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="Facebook">👥</a>
+        <a href="https://wa.me/16472672948" aria-label="WhatsApp">💬</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+</body>
+</html>

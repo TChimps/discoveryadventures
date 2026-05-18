@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>All Tours — Discovery Adventures</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* ── TOURS PAGE STYLES ───────────────────────────────── */
+.tours-hero { background: var(--grad-dark); }
+
+/* FILTER BAR */
+.filter-bar {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.filter-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.filter-chip {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-chip:hover { border-color: rgba(255,255,255,0.3); color: white; }
+.filter-chip.active {
+  background: var(--grad-main);
+  border-color: transparent;
+  color: white;
+}
+.filter-sep {
+  width: 1px; height: 28px;
+  background: var(--glass-border);
+}
+.sort-select {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: white;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.sort-select:focus { border-color: var(--orange); }
+.filter-count {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* TOURS CATALOG */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+.catalog-card {
+  background: var(--slate);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.catalog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 28px 70px -18px rgba(21,32,58,0.7);
+}
+.catalog-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.75rem 1.75rem 1.25rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+.catalog-card-emoji-wrap {
+  width: 70px; height: 70px;
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+.catalog-card-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 0.3rem;
+}
+.catalog-card-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.catalog-card-body { padding: 1.25rem 1.75rem; }
+.catalog-card-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+.catalog-card-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.catalog-card-highlight {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.8);
+}
+.catalog-card-highlight::before {
+  content: '✓';
+  font-weight: 800;
+  color: var(--teal);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+.catalog-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.75rem;
+  background: rgba(0,0,0,0.15);
+  border-top: 1px solid var(--glass-border);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.catalog-card-meta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.catalog-price-block { text-align: right; }
+.catalog-price-from {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.catalog-price {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.7rem;
+  letter-spacing: -0.03em;
+  color: white;
+  line-height: 1;
+}
+.catalog-price-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* NO RESULTS */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+.no-results span { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) { .catalog-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .filter-bar { flex-direction: column; align-items: flex-start; }
+  .filter-sep { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ─────────────────────────────────────── -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-badge">🧭</div>
+      <span class="nav-logo-name">Discovery Adventures</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="tours.html" class="nav-link active">Tours</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="tours.html" class="nav-cta">Book Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── PAGE HERO ───────────────────────────────────────── -->
+<section class="page-hero tours-hero">
+  <div class="container page-hero-inner">
+    <div class="section-eyebrow">🗺️ All Adventures</div>
+    <h1 class="section-title" style="font-size:clamp(2.5rem,6vw,4rem);">Browse Our Tours</h1>
+    <p class="section-subtitle">Four world-class Canadian day adventures. Filter by difficulty, sort by price, and find your next favourite memory.</p>
+  </div>
+</section>
+
+<!-- ── TOURS BROWSE ────────────────────────────────────── -->
+<section class="section" style="background:linear-gradient(180deg,#0f1929 0%,var(--navy) 100%);">
+  <div class="container">
+
+    <!-- Filter Bar -->
+    <div class="filter-bar" role="toolbar" aria-label="Tour filters">
+      <div class="filter-label">Filter:</div>
+      <div class="filter-group" role="group" aria-label="Difficulty filters">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="Easy">Easy</button>
+        <button class="filter-chip" data-filter="Moderate">Moderate</button>
+        <button class="filter-chip" data-filter="Easy–Moderate">Easy–Moderate</button>
+      </div>
+      <div class="filter-sep" role="separator"></div>
+      <div class="filter-label">Sort:</div>
+      <select class="sort-select" id="sortSelect" aria-label="Sort tours">
+        <option value="default">Default</option>
+        <option value="price-asc">Price: Low → High</option>
+        <option value="price-desc">Price: High → Low</option>
+        <option value="duration-asc">Shortest First</option>
+        <option value="duration-desc">Longest First</option>
+      </select>
+      <span class="filter-count" id="filterCount">Showing 4 tours</span>
+    </div>
+
+    <!-- Catalog Grid -->
+    <div class="catalog-grid" id="catalogGrid">
+      <!-- injected by JS -->
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SITE FOOTER ─────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="nav-logo" style="display:inline-flex; margin-bottom:0.5rem;">
+          <div class="nav-logo-badge">🧭</div>
+          <span class="nav-logo-name" style="font-size:1.1rem;">Discovery Adventures</span>
+        </a>
+        <p class="footer-brand-desc">Expert-guided day trips to Canada's most spectacular natural wonders. All-inclusive, safety-first, unforgettable.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigate</div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="tours.html">All Tours</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="blog.html">Blog</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Adventures</div>
+        <div class="footer-links">
+          <a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a>
+          <a href="tour-detail.html?tour=banff-lake-louise">Banff & Lake Louise</a>
+          <a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a>
+          <a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">📞</span>
+          <div><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
+        </div>
+        <div class="footer-contact-row">
+          <span class="footer-contact-icon">✉️</span>
+          <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">© 2026 Discovery Adventures · All prices in CAD · All sales final · Subject to availability</div>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="Facebook">👥</a>
+        <a href="https://wa.me/16472672948" aria-label="WhatsApp">💬</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ──────────────────────────────────────────── -->
+<script src="js/data.js"></script>
+<script>
+/* ── STATE ────────────────────────────────────────────── */
+let activeFilter = 'all';
+let activeSort   = 'default';
+
+/* ── RENDER A CATALOG CARD ────────────────────────────── */
+function renderCatalogCard(tour) {
+  const diffClass = {
+    'Easy': 'pill-teal',
+    'Moderate': 'pill-orange',
+    'Easy–Moderate': 'pill-yellow'
+  }[tour.difficulty] || 'pill-glass';
+
+  const highlightsHTML = tour.highlights
+    .map(h => `<div class="catalog-card-highlight">${h}</div>`)
+    .join('');
+
+  return `
+    <article class="catalog-card" data-difficulty="${tour.difficulty}" data-price="${tour.price}" data-duration="${tour.duration}">
+      <div class="catalog-card-header">
+        <div class="catalog-card-emoji-wrap" style="background:${tour.gradient}22; border:1px solid ${tour.accentColor}33;">
+          <span style="font-size:2rem">${tour.emoji}</span>
+        </div>
+        <div>
+          <h2 class="catalog-card-title">${tour.title}</h2>
+          <div class="catalog-card-sub">${tour.subtitle}</div>
+        </div>
+      </div>
+      <div class="catalog-card-body">
+        <p class="catalog-card-desc">${tour.shortDesc}</p>
+        <div class="catalog-card-highlights">${highlightsHTML}</div>
+      </div>
+      <div class="catalog-card-footer">
+        <div class="catalog-card-meta">
+          <span class="pill pill-glass">⏱ ${tour.duration} hours</span>
+          <span class="pill pill-glass">👥 Max ${tour.maxCapacity}</span>
+          <span class="pill ${diffClass}">${tour.difficulty}</span>
+        </div>
+        <div class="catalog-price-block">
+          <div class="catalog-price-from">From</div>
+          <div class="catalog-price" style="background:${tour.gradient}; -webkit-background-clip:text; background-clip:text; color:transparent;">$${tour.price}</div>
+          <div class="catalog-price-note">CAD per person</div>
+        </div>
+        <a href="tour-detail.html?tour=${tour.id}" class="btn btn-sm" style="background:${tour.gradient}; color:white; font-weight:700; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+          Book Now →
+        </a>
+      </div>
+    </article>`;
+}
+
+/* ── FILTER & SORT LOGIC ─────────────────────────────── */
+function applyFiltersAndSort() {
+  let filtered = [...TOURS_DB];
+
+  // Apply difficulty filter
+  if (activeFilter !== 'all') {
+    filtered = filtered.filter(t => t.difficulty === activeFilter);
+  }
+
+  // Apply sort
+  switch (activeSort) {
+    case 'price-asc':     filtered.sort((a,b) => a.price - b.price); break;
+    case 'price-desc':    filtered.sort((a,b) => b.price - a.price); break;
+    case 'duration-asc':  filtered.sort((a,b) => a.duration - b.duration); break;
+    case 'duration-desc': filtered.sort((a,b) => b.duration - a.duration); break;
+  }
+
+  // Render
+  const grid = document.getElementById('catalogGrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="no-results"><span>🔍</span>No tours match your filters.<br>Try selecting a different difficulty.</div>`;
+  } else {
+    grid.innerHTML = filtered.map(renderCatalogCard).join('');
+  }
+
+  // Update count
+  document.getElementById('filterCount').textContent =
+    `Showing ${filtered.length} tour${filtered.length === 1 ? '' : 's'}`;
+}
+
+/* ── EVENT LISTENERS ─────────────────────────────────── */
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeFilter = chip.dataset.filter;
+    applyFiltersAndSort();
+  });
+});
+
+document.getElementById('sortSelect').addEventListener('change', e => {
+  activeSort = e.target.value;
+  applyFiltersAndSort();
+});
+
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* ── INITIAL RENDER ──────────────────────────────────── */
+applyFiltersAndSort();
+</script>
+</body>
+</html>
