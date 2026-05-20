@@ -1,80 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Discovery Adventures — Canadian Day Trips & Adventure Tours</title>
+<title>Discovery Adventures — Ontario Day Trips from the GTA</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
-/* ── HOME-SPECIFIC STYLES ──────────────────────────────── */
+/* ── HOME PAGE STYLES ──────────────────────────────────── */
 
 /* HERO */
 .hero {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: var(--grad-dark);
+  background: var(--hero-grad);
   position: relative;
   overflow: hidden;
   padding-top: var(--nav-h);
+  transition: var(--transition-theme);
 }
 .hero::before {
   content: '';
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse at 80% 20%, rgba(240,138,46,0.28) 0%, transparent 55%),
-    radial-gradient(ellipse at 15% 75%, rgba(44,199,193,0.22) 0%, transparent 50%),
-    radial-gradient(ellipse at 55% 90%, rgba(177,74,214,0.2) 0%, transparent 45%);
-}
-.hero-particles {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+    radial-gradient(ellipse at 80% 20%, rgba(240,138,46,0.25) 0%, transparent 52%),
+    radial-gradient(ellipse at 14% 75%, rgba(44,199,193,0.2) 0%, transparent 48%),
+    radial-gradient(ellipse at 55% 90%, rgba(177,74,214,0.18) 0%, transparent 44%);
 }
 .hero-particle {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.15;
-  animation: floatUp 12s ease-in-out infinite;
+  opacity: 0.12;
+  pointer-events: none;
+  animation: particleFloat 10s ease-in-out infinite;
 }
-@keyframes floatUp {
-  0%,100% { transform: translateY(0) scale(1); opacity: 0.12; }
-  50%      { transform: translateY(-40px) scale(1.1); opacity: 0.25; }
+@keyframes particleFloat {
+  0%,100% { transform: translateY(0) scale(1);   opacity: 0.1; }
+  50%      { transform: translateY(-36px) scale(1.08); opacity: 0.22; }
 }
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 780px;
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
 }
+.hero-content { position: relative; z-index: 2; max-width: 760px; }
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.4rem 1rem;
+  padding: 0.38rem 1rem;
   border-radius: 999px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.18);
-  font-size: 0.72rem;
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.85);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
-  animation: fadeSlideDown 0.7s ease both;
+  animation: fadeSlideUp 0.6s 0.05s ease both;
 }
 .hero-title {
   font-family: 'Nunito', sans-serif;
   font-weight: 900;
-  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-size: clamp(3rem, 8vw, 5.8rem);
   letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: white;
-  margin-bottom: 1.5rem;
-  animation: fadeSlideDown 0.7s 0.1s ease both;
+  line-height: 0.93;
+  color: var(--text-primary);
+  margin-bottom: 1.4rem;
+  animation: fadeSlideUp 0.6s 0.12s ease both;
+  transition: color 0.3s;
 }
-.hero-title .line2 {
+.hero-title .accent {
   display: block;
   background: var(--grad-main);
   -webkit-background-clip: text;
@@ -82,25 +79,24 @@
   color: transparent;
 }
 .hero-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-muted);
+  font-size: 1.08rem;
+  color: var(--text-secondary);
   line-height: 1.65;
-  max-width: 520px;
-  margin-bottom: 2.25rem;
-  animation: fadeSlideDown 0.7s 0.2s ease both;
+  max-width: 510px;
+  margin-bottom: 2.2rem;
+  animation: fadeSlideUp 0.6s 0.2s ease both;
+  transition: color 0.3s;
 }
 .hero-ctas {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  animation: fadeSlideDown 0.7s 0.3s ease both;
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  animation: fadeSlideUp 0.6s 0.28s ease both;
 }
 .hero-stats {
-  display: flex;
-  gap: 2.5rem;
+  display: flex; gap: 2.5rem; flex-wrap: wrap;
   margin-top: 3.5rem;
-  flex-wrap: wrap;
-  animation: fadeSlideDown 0.7s 0.4s ease both;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-soft);
+  animation: fadeSlideUp 0.6s 0.36s ease both;
 }
 .hero-stat-val {
   font-family: 'Nunito', sans-serif;
@@ -113,205 +109,130 @@
   color: transparent;
   line-height: 1;
 }
-.hero-stat-lbl {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  margin-top: 0.25rem;
-  font-weight: 600;
-}
-.hero-visual {
+.hero-stat-lbl { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.22rem; font-weight: 600; }
+
+/* Float badges (decorative) */
+.hero-badges {
   position: absolute;
-  right: 0; top: 0; bottom: 0;
-  width: 42%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 8rem 3rem 4rem 2rem;
+  right: 2rem; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 1rem;
+  width: 220px;
   z-index: 1;
 }
-.hero-badge-float {
-  background: rgba(255,255,255,0.08);
+.hero-badge {
+  background: var(--bg-glass);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 1rem 1.25rem;
-  animation: floatBadge 4s ease-in-out infinite;
+  padding: 1rem 1.2rem;
+  animation: badgeFloat 4s ease-in-out infinite;
 }
-.hero-badge-float:nth-child(2) { animation-delay: 1.3s; align-self: flex-end; }
-.hero-badge-float:nth-child(3) { animation-delay: 2.6s; }
-@keyframes floatBadge {
+.hero-badge:nth-child(2) { animation-delay: 1.5s; margin-left: 1.5rem; }
+.hero-badge:nth-child(3) { animation-delay: 3s; }
+@keyframes badgeFloat {
   0%,100% { transform: translateY(0); }
   50%      { transform: translateY(-10px); }
 }
-.hbf-label {
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  margin-bottom: 0.3rem;
-}
-.hbf-val {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 1.2rem;
-  color: white;
-  letter-spacing: -0.02em;
-}
-.hbf-dot {
-  display: inline-block;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  margin-right: 0.4rem;
-  vertical-align: middle;
-}
+.hb-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 0.25rem; }
+.hb-val   { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.05rem; color: var(--text-primary); letter-spacing: -0.02em; }
+.hb-sub   { font-size: 0.7rem; color: var(--text-secondary); margin-top: 0.2rem; }
 
 /* TOURS GRID */
-.tours-section {
-  background: linear-gradient(180deg, var(--navy) 0%, #0f1929 100%);
-  position: relative;
-}
-.tours-section::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: var(--glass-border);
-}
+.tours-section { background: var(--section-alt); transition: var(--transition-theme); }
 .tours-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: 1.2rem;
   margin-top: 3rem;
 }
 
 /* WHY US */
 .why-section {
-  background: linear-gradient(135deg, var(--navy) 0%, #1a1040 100%);
-  position: relative;
-  overflow: hidden;
-}
-.why-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, rgba(177,74,214,0.12) 0%, transparent 70%);
+  background: var(--bg-page);
+  transition: var(--transition-theme);
 }
 .why-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.4rem;
   margin-top: 3rem;
 }
 .why-card {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 2rem;
+  padding: 1.9rem;
   text-align: center;
-  transition: transform 0.3s, background 0.3s;
+  transition: transform 0.3s, background 0.3s, var(--transition-theme);
 }
-.why-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.1);
-}
-.why-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-.why-title {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: white;
-  margin-bottom: 0.6rem;
-  letter-spacing: -0.02em;
-}
-.why-desc {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-.why-stat {
-  display: inline-block;
-  margin-top: 1rem;
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 1.5rem;
-  letter-spacing: -0.03em;
-}
+.why-card:hover { transform: translateY(-5px); background: var(--bg-glass-hover); }
+.why-icon  { font-size: 2.4rem; margin-bottom: 1rem; display: block; }
+.why-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.55rem; letter-spacing: -0.01em; transition: color 0.3s; }
+.why-desc  { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; transition: color 0.3s; }
+.why-stat  { display: inline-block; margin-top: 0.9rem; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.5rem; letter-spacing: -0.03em; }
 
 /* BLOG PREVIEW */
-.blog-section {
-  background: linear-gradient(180deg, #0f1929 0%, var(--navy) 100%);
-}
+.blog-section { background: var(--section-alt); transition: var(--transition-theme); }
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.4rem;
   margin-top: 3rem;
 }
 .blog-card {
-  background: var(--slate);
-  border: 1px solid var(--glass-border);
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
   border-radius: 18px;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, var(--transition-theme);
 }
-.blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px -10px rgba(21,32,58,0.6);
-}
-.blog-card-emoji {
-  font-size: 2.5rem;
+.blog-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-card); }
+.blog-card-thumb {
   height: 130px;
   display: flex; align-items: center; justify-content: center;
-  position: relative;
-  overflow: hidden;
+  font-size: 3rem;
+  background: var(--bg-glass);
 }
-.blog-card-body { padding: 1.5rem; }
-.blog-card-cat {
+[data-theme="light"] .blog-card-thumb { background: var(--bg-card); }
+.blog-card-body  { padding: 1.4rem; }
+.blog-card-cat   {
   display: inline-flex;
-  align-items: center;
-  padding: 0.2rem 0.65rem;
+  padding: 0.18rem 0.62rem;
   border-radius: 999px;
-  font-size: 0.65rem;
+  font-size: 0.63rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.7rem;
 }
 .blog-card-title {
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
-  font-size: 1.05rem;
-  color: white;
+  font-size: 1rem;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
   line-height: 1.3;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.55rem;
+  transition: color 0.3s;
 }
 .blog-card-excerpt {
-  font-size: 0.83rem;
-  color: var(--text-muted);
-  line-height: 1.6;
+  font-size: 0.81rem;
+  color: var(--text-secondary);
+  line-height: 1.58;
   margin-bottom: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: color 0.3s;
 }
 .blog-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border-soft);
   padding-top: 0.75rem;
 }
-.blog-meta {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-}
+.blog-meta { font-size: 0.72rem; color: var(--text-dim); }
 
 /* CTA STRIP */
 .cta-strip {
@@ -323,10 +244,8 @@
 }
 .cta-strip::before {
   content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%),
-              radial-gradient(ellipse at 70% 50%, rgba(0,0,0,0.1) 0%, transparent 60%);
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
 }
 .cta-strip-inner { position: relative; z-index: 1; }
 .cta-strip-title {
@@ -334,227 +253,191 @@
   font-weight: 900;
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   letter-spacing: -0.03em;
-  color: white;
-  margin-bottom: 0.75rem;
+  color: #fff;
+  margin-bottom: 0.7rem;
 }
-.cta-strip-sub {
-  font-size: 1rem;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 2rem;
-}
-.cta-strip .btn-secondary {
-  border-color: rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.15);
-}
-.cta-strip .btn-secondary:hover { background: rgba(255,255,255,0.25); }
-
-/* ANIMATIONS */
-@keyframes fadeSlideDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.fade-in.visible { opacity: 1; transform: none; }
+.cta-strip-sub { font-size: 1rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem; }
+.cta-strip .btn-secondary { border-color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.15); color: #fff; }
+.cta-strip .btn-secondary:hover { background: rgba(255,255,255,0.24); }
 
 /* RESPONSIVE */
-@media (max-width: 1200px) { .tours-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 900px)  {
-  .why-grid { grid-template-columns: 1fr; }
-  .blog-grid { grid-template-columns: 1fr; }
-  .hero-visual { display: none; }
-}
+@media (max-width: 1200px) { .tours-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 1024px) { .hero-badges { display: none; } }
+@media (max-width: 900px)  { .why-grid { grid-template-columns: 1fr; } .blog-grid { grid-template-columns: 1fr; } }
 @media (max-width: 768px)  { .tours-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- ── NAVIGATION ─────────────────────────────────────── -->
-<nav class="site-nav" aria-label="Main navigation">
+<!-- ── NAV ────────────────────────────────────────────────── -->
+<nav class="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
       <div class="nav-logo-badge">🧭</div>
       <span class="nav-logo-name">Discovery Adventures</span>
     </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html" class="nav-link active">Home</a>
-      <a href="tours.html" class="nav-link">Tours</a>
-      <a href="calendar.html" class="nav-link">Calendar</a>
-      <a href="blog.html" class="nav-link">Blog</a>
-      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="index.html"       class="nav-link active">Home</a>
+      <a href="tours.html"       class="nav-link">Tours</a>
+      <a href="calendar.html"    class="nav-link">Calendar</a>
+      <a href="blog.html"        class="nav-link">Blog</a>
+      <a href="contact.html"     class="nav-link">Contact</a>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"></button>
       <a href="tours.html" class="nav-cta">Book Now</a>
     </div>
+    <button class="theme-toggle" id="themeToggleMobile" onclick="toggleTheme()" style="display:none;" aria-label="Toggle theme"></button>
   </div>
 </nav>
 
-<!-- ── HERO ───────────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-particles" id="particles"></div>
+<!-- ── HERO ───────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div id="particles" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-content">
-      <div class="hero-eyebrow">✨ Canada's Premier Day-Trip Agency</div>
+      <div class="hero-eyebrow">✨ Ontario's Premier GTA Day-Trip Agency</div>
       <h1 class="hero-title">
-        Adventure<br>
-        <span class="line2">Awaits You</span>
+        Explore<br>
+        <span class="accent">Ontario's Wild</span>
       </h1>
-      <p class="hero-subtitle">
-        Expert-led day trips to Canada's most spectacular destinations. From Niagara Falls to the Rockies — fully guided, all-inclusive, unforgettable.
-      </p>
+      <p class="hero-subtitle">Expert-guided day adventures to Niagara Falls, Muskoka, Algonquin Park, and the Bruce Peninsula — all departing from Toronto. All-inclusive, safety-first, unforgettable.</p>
       <div class="hero-ctas">
-        <a href="tours.html" class="btn btn-primary btn-lg">🗺️ Explore Trips</a>
+        <a href="tours.html"   class="btn btn-primary btn-lg">🗺️ Explore Tours</a>
         <a href="calendar.html" class="btn btn-secondary btn-lg">📅 View Calendar</a>
       </div>
       <div class="hero-stats">
-        <div>
-          <div class="hero-stat-val">4,800+</div>
-          <div class="hero-stat-lbl">Happy Adventurers</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">4.9★</div>
-          <div class="hero-stat-lbl">Safety Rating</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">12+</div>
-          <div class="hero-stat-lbl">Destinations</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">100%</div>
-          <div class="hero-stat-lbl">Insured & Certified</div>
-        </div>
+        <div><div class="hero-stat-val">4,800+</div><div class="hero-stat-lbl">Happy Adventurers</div></div>
+        <div><div class="hero-stat-val">4.9★</div><div class="hero-stat-lbl">Safety Rating</div></div>
+        <div><div class="hero-stat-val">4</div><div class="hero-stat-lbl">Iconic Ontario Routes</div></div>
+        <div><div class="hero-stat-val">100%</div><div class="hero-stat-lbl">GTA Departures</div></div>
       </div>
     </div>
   </div>
   <!-- Floating info badges -->
-  <div class="hero-visual" aria-hidden="true">
-    <div class="hero-badge-float">
-      <div class="hbf-label">Next Departure</div>
-      <div class="hbf-val">🌊 Niagara Falls</div>
-      <div class="hbf-label" style="margin-top:0.35rem">Sat, Jan 10 · 7:30 AM</div>
+  <div class="hero-badges" aria-hidden="true">
+    <div class="hero-badge">
+      <div class="hb-label">Next Departure</div>
+      <div class="hb-val">🌊 Niagara Falls</div>
+      <div class="hb-sub">Sat, Jan 10 · 7:30 AM from Union Station</div>
     </div>
-    <div class="hero-badge-float">
-      <div class="hbf-label">Most Popular</div>
-      <div class="hbf-val">🏔️ Banff Explorer</div>
-      <div class="hbf-label" style="margin-top:0.35rem"><span class="hbf-dot" style="background:var(--pink)"></span>3 spots left this month</div>
+    <div class="hero-badge">
+      <div class="hb-label">🔥 Most Popular</div>
+      <div class="hb-val">⛵ Bruce Peninsula</div>
+      <div class="hb-sub">Only 3 spots left this month</div>
     </div>
-    <div class="hero-badge-float">
-      <div class="hbf-label">2026 Season Open</div>
-      <div class="hbf-val">⛵ Bruce Peninsula</div>
-      <div class="hbf-label" style="margin-top:0.35rem">May–Oct · Glass-bottom boat included</div>
+    <div class="hero-badge">
+      <div class="hb-label">Season Open</div>
+      <div class="hb-val">🛳️ Muskoka Lakes</div>
+      <div class="hb-sub">May–Oct · Steamship included</div>
     </div>
   </div>
 </section>
 
-<!-- ── TRENDING TOURS ──────────────────────────────────── -->
+<!-- ── TRENDING TOURS ──────────────────────────────────────── -->
 <section class="tours-section section" id="tours">
   <div class="container">
     <div class="fade-in">
-      <div class="section-eyebrow">🔥 Trending Right Now</div>
-      <div class="flex-between" style="flex-wrap:wrap; gap:1rem;">
-        <h2 class="section-title">Our Adventure Lineup</h2>
-        <a href="tours.html" class="btn btn-secondary">View All Tours →</a>
+      <div class="section-eyebrow">🔥 Departing from Toronto</div>
+      <div class="flex-between" style="flex-wrap:wrap;gap:1rem;">
+        <h2 class="section-title">Our Ontario Adventures</h2>
+        <a href="tours.html" class="btn btn-secondary">All Tours →</a>
       </div>
     </div>
-    <div class="tours-grid" id="toursGrid">
-      <!-- injected by JS -->
-    </div>
+    <div class="tours-grid" id="toursGrid"></div>
   </div>
 </section>
 
-<!-- ── WHY CHOOSE US ───────────────────────────────────── -->
+<!-- ── WHY CHOOSE US ────────────────────────────────────────── -->
 <section class="why-section section">
   <div class="container">
     <div class="fade-in text-center">
       <div class="section-eyebrow">Why Adventurers Trust Us</div>
       <h2 class="section-title" style="text-align:center">The Discovery Difference</h2>
-      <p class="section-subtitle" style="margin: 0 auto 0">Built around safety, expertise, and the joy of seeing Canada like never before.</p>
+      <p class="section-subtitle" style="margin:0 auto;">Built around safety, local expertise, and the joy of seeing Ontario like never before.</p>
     </div>
     <div class="why-grid">
       <div class="why-card fade-in">
         <span class="why-icon">🛡️</span>
         <div class="why-title">Safety-First Always</div>
-        <div class="why-desc">Every vehicle is fully licensed and insured. Our guides carry Wilderness First Aid certification and emergency communication gear on every single trip.</div>
+        <div class="why-desc">Every vehicle is fully licensed and insured. Our guides carry Wilderness First Aid certification and satellite communication gear on every trip.</div>
         <div class="why-stat gradient-text">4.9★</div>
-        <div style="font-size:0.75rem; color:var(--text-muted)">Across 4,800+ trips</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">Across 4,800+ departures</div>
       </div>
       <div class="why-card fade-in">
         <span class="why-icon">🧭</span>
-        <div class="why-title">Expert Local Guides</div>
-        <div class="why-desc">Our guides aren't just drivers — they're passionate naturalists, historians, and photographers who bring every destination to life with stories and insight.</div>
+        <div class="why-title">Expert Ontario Guides</div>
+        <div class="why-desc">Our guides are certified naturalists, provincial park experts, and passionate storytellers who bring every destination alive with context and insight.</div>
         <div class="why-stat gradient-text-teal">8+ yrs</div>
-        <div style="font-size:0.75rem; color:var(--text-muted)">Avg. guide experience</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">Average guide experience</div>
       </div>
       <div class="why-card fade-in">
         <span class="why-icon">💎</span>
-        <div class="why-title">All-Inclusive Value</div>
-        <div class="why-desc">No hidden fees, no surprise charges at the gate. Your ticket price covers transport, entry fees, guided activities, and all the gear you need to enjoy the day.</div>
+        <div class="why-title">Truly All-Inclusive</div>
+        <div class="why-desc">No gate surprises. Your ticket covers return transport from Union Station, entry fees, guided activities, and all required gear. One price, zero extras.</div>
         <div class="why-stat gradient-text-yellow">$0</div>
-        <div style="font-size:0.75rem; color:var(--text-muted)">Hidden fees ever</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">Hidden fees. Ever.</div>
       </div>
       <div class="why-card fade-in">
         <span class="why-icon">👥</span>
-        <div class="why-title">Small Intimate Groups</div>
-        <div class="why-desc">Maximum 12 guests per trip means more personal attention from your guide, better wildlife sightings, and a genuinely social experience — not a crowded bus tour.</div>
+        <div class="why-title">Small Groups Only</div>
+        <div class="why-desc">Maximum 12 guests per trip — often fewer. More attention from your guide, better wildlife sightings, and a genuine social experience instead of a bus tour.</div>
         <div class="why-stat gradient-text">≤12</div>
-        <div style="font-size:0.75rem; color:var(--text-muted)">Guests per departure</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">Guests per departure</div>
       </div>
       <div class="why-card fade-in">
         <span class="why-icon">🚐</span>
-        <div class="why-title">Premium Transport</div>
-        <div class="why-desc">Travel in comfort in our modern, air-conditioned vans with plenty of legroom. Door-to-door pickup from central Toronto or Calgary locations.</div>
+        <div class="why-title">GTA-Convenient</div>
+        <div class="why-desc">All trips depart from central Toronto. No rental cars, no highway navigation, no parking fees. Show up at Union Station, we handle the rest.</div>
         <div class="why-stat gradient-text-teal">100%</div>
-        <div style="font-size:0.75rem; color:var(--text-muted)">Insured vehicles</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">Insured vehicles</div>
       </div>
       <div class="why-card fade-in">
         <span class="why-icon">🌱</span>
-        <div class="why-title">Eco-Responsible</div>
-        <div class="why-desc">We operate under Leave No Trace principles. A portion of every booking supports Canadian conservation organisations and national park stewardship programs.</div>
-        <div class="why-stat" style="background: var(--grad-green); -webkit-background-clip: text; background-clip: text; color: transparent;">1% for Parks</div>
-        <div style="font-size:0.75rem; color:var(--text-muted)">Donated per booking</div>
+        <div class="why-title">Leave No Trace</div>
+        <div class="why-desc">We operate under Ontario Parks' Leave No Trace principles. A portion of every booking supports Ontario conservation organisations and park stewardship funds.</div>
+        <div class="why-stat" style="background:var(--grad-green);-webkit-background-clip:text;background-clip:text;color:transparent;">1% for Parks</div>
+        <div style="font-size:0.72rem;color:var(--text-secondary)">Donated per booking</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── BLOG PREVIEW ────────────────────────────────────── -->
+<!-- ── BLOG PREVIEW ─────────────────────────────────────────── -->
 <section class="blog-section section">
   <div class="container">
     <div class="fade-in">
       <div class="section-eyebrow">📖 From the Adventure Journal</div>
-      <div class="flex-between" style="flex-wrap:wrap; gap:1rem;">
+      <div class="flex-between" style="flex-wrap:wrap;gap:1rem;">
         <h2 class="section-title">Latest from the Blog</h2>
         <a href="blog.html" class="btn btn-secondary">All Articles →</a>
       </div>
     </div>
-    <div class="blog-grid" id="blogGrid">
-      <!-- injected by JS -->
-    </div>
+    <div class="blog-grid" id="blogGrid"></div>
   </div>
 </section>
 
-<!-- ── CTA STRIP ───────────────────────────────────────── -->
+<!-- ── CTA STRIP ──────────────────────────────────────────────── -->
 <section class="cta-strip">
   <div class="container cta-strip-inner">
-    <h2 class="cta-strip-title">Ready for Your Next Great Adventure?</h2>
-    <p class="cta-strip-sub">Spots fill fast — most weekends sell out 2–3 weeks in advance.</p>
+    <h2 class="cta-strip-title">Ready for Your Next Ontario Adventure?</h2>
+    <p class="cta-strip-sub">Spots fill fast — summer weekends sell out 2–3 weeks in advance.</p>
     <div class="flex-center gap-2" style="flex-wrap:wrap;">
-      <a href="tours.html" class="btn btn-secondary btn-lg">Browse All Tours</a>
-      <a href="contact.html" class="btn btn-lg" style="background:white; color:var(--navy); font-weight:700;">Get in Touch</a>
+      <a href="tours.html"  class="btn btn-secondary btn-lg">Browse All Tours</a>
+      <a href="contact.html" class="btn btn-lg" style="background:white;color:#15203a;font-weight:700;">Get in Touch</a>
     </div>
   </div>
 </section>
 
-<!-- ── SITE FOOTER ─────────────────────────────────────── -->
+<!-- ── FOOTER ────────────────────────────────────────────────── -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="nav-logo" style="display:inline-flex; margin-bottom:0.5rem;">
+        <a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;">
           <div class="nav-logo-badge">🧭</div>
-          <span class="nav-logo-name" style="font-size:1.1rem;">Discovery Adventures</span>
+          <span class="nav-logo-name" style="font-size:1.05rem;">Discovery Adventures</span>
         </a>
-        <p class="footer-brand-desc">Expert-guided day trips to Canada's most spectacular natural wonders. All-inclusive, safety-first, unforgettable.</p>
+        <p class="footer-brand-desc">Expert-guided Ontario day trips from the Greater Toronto Area. All-inclusive, safety-first, unforgettable.</p>
       </div>
       <div>
         <div class="footer-col-title">Navigate</div>
@@ -563,44 +446,29 @@
           <a href="tours.html">All Tours</a>
           <a href="calendar.html">Calendar</a>
           <a href="blog.html">Blog</a>
-          <a href="contact.html">Contact Us</a>
+          <a href="contact.html">Contact</a>
           <a href="sitemap.html">Site Map</a>
         </div>
       </div>
       <div>
-        <div class="footer-col-title">Adventures</div>
+        <div class="footer-col-title">Destinations</div>
         <div class="footer-links">
           <a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a>
-          <a href="tour-detail.html?tour=banff-lake-louise">Banff & Lake Louise</a>
+          <a href="tour-detail.html?tour=muskoka-lakes">Muskoka Lakes</a>
           <a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a>
           <a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a>
         </div>
       </div>
       <div>
         <div class="footer-col-title">Contact</div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">📞</span>
-          <div>Call or WhatsApp:<br><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">✉️</span>
-          <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">📍</span>
-          <div>Toronto &amp; Calgary, Canada</div>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">🕐</span>
-          <div>Mon–Sun: 7AM – 9PM ET</div>
-        </div>
+        <div class="footer-contact-row">📞 <div>Call or WhatsApp:<br><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div></div>
+        <div class="footer-contact-row">✉️ <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div></div>
+        <div class="footer-contact-row">📍 <div>Toronto, Ontario — GTA Pickup</div></div>
+        <div class="footer-contact-row">🕐 <div>Mon–Sun: 7AM–9PM ET</div></div>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-legal">
-        © 2026 Discovery Adventures · All rights reserved<br>
-        All prices in CAD · All sales final · Subject to availability · Minimum 4 guests to operate
-      </div>
+      <div class="footer-legal">© 2026 Discovery Adventures · All rights reserved · All prices in CAD · Subject to availability · Min. 4 guests to operate</div>
       <div class="footer-social">
         <a href="#" aria-label="Instagram">📸</a>
         <a href="#" aria-label="Facebook">👥</a>
@@ -611,97 +479,80 @@
   </div>
 </footer>
 
-<!-- ── SCRIPTS ──────────────────────────────────────────── -->
+<script src="js/theme.js"></script>
 <script src="js/data.js"></script>
 <script>
-/* ── NAV TOGGLE ──────────────────────────────────────── */
-document.getElementById('navToggle').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
+/* ── SHOW MOBILE THEME TOGGLE NEXT TO HAMBURGER ─────── */
+document.addEventListener('DOMContentLoaded', () => {
+  const mob = document.getElementById('themeToggleMobile');
+  if (window.innerWidth <= 768 && mob) mob.style.display = 'flex';
+  window.addEventListener('resize', () => {
+    if (mob) mob.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+  });
 });
 
-/* ── RENDER TOUR CARDS ───────────────────────────────── */
-function renderTourCard(tour) {
-  const difficultyClass = {
-    'Easy': 'pill-teal',
-    'Moderate': 'pill-orange',
-    'Easy–Moderate': 'pill-yellow'
-  }[tour.difficulty] || 'pill-glass';
-
-  return `
-    <article class="tour-card fade-in" role="article">
-      <div class="tour-card-accent" style="background:${tour.gradient}"></div>
-      <div class="tour-card-header">
-        <span class="tour-card-emoji">${tour.emoji}</span>
-        <h3 class="tour-card-title">${tour.title}</h3>
-        <p class="tour-card-desc">${tour.shortDesc}</p>
-      </div>
-      <div class="tour-card-meta">
-        <span class="pill pill-glass">⏱ ${tour.duration}h</span>
-        <span class="pill pill-glass">👥 Max ${tour.maxCapacity}</span>
-        <span class="pill ${difficultyClass}">${tour.difficulty}</span>
-      </div>
-      <div class="tour-card-footer">
-        <div class="tour-card-price">
-          $${tour.price} <span>CAD / person</span>
-        </div>
-        <a href="tour-detail.html?tour=${tour.id}" class="btn btn-sm" style="background:${tour.gradient}; color:white; font-weight:700; box-shadow: 0 4px 14px rgba(0,0,0,0.3);">
-          View Details →
-        </a>
-      </div>
-    </article>`;
-}
-
-/* ── RENDER BLOG CARDS ───────────────────────────────── */
-function renderBlogCard(post) {
-  return `
-    <article class="blog-card fade-in" role="article">
-      <div class="blog-card-emoji" style="background:linear-gradient(135deg, rgba(21,32,58,0.8), rgba(42,26,58,0.8))">
-        ${post.emoji}
-      </div>
-      <div class="blog-card-body">
-        <span class="blog-card-cat" style="background:${post.categoryColor}22; color:${post.categoryColor}; border:1px solid ${post.categoryColor}44;">
-          ${post.category}
-        </span>
-        <h3 class="blog-card-title">${post.title}</h3>
-        <p class="blog-card-excerpt">${post.excerpt}</p>
-        <div class="blog-card-footer">
-          <div class="blog-meta">${post.date} · ${post.readTime}</div>
-          <a href="blog.html" class="btn btn-sm btn-secondary">Read →</a>
-        </div>
-      </div>
-    </article>`;
-}
-
-/* ── INIT ─────────────────────────────────────────────── */
-document.getElementById('toursGrid').innerHTML = TOURS_DB.map(renderTourCard).join('');
-document.getElementById('blogGrid').innerHTML = BLOG_DB.slice(0, 3).map(renderBlogCard).join('');
-
-/* ── FLOATING PARTICLES ──────────────────────────────── */
-(function createParticles() {
-  const container = document.getElementById('particles');
-  const colors = ['#f08a2e','#ec3a6b','#b14ad6','#2cc7c1','#ffd24a'];
-  for (let i = 0; i < 18; i++) {
+/* ── PARTICLES ────────────────────────────────────────── */
+(function () {
+  const c = document.getElementById('particles');
+  if (!c) return;
+  const cols = ['#f08a2e','#ec3a6b','#b14ad6','#2cc7c1','#ffd24a'];
+  for (let i = 0; i < 16; i++) {
     const p = document.createElement('div');
     p.className = 'hero-particle';
-    const size = 6 + Math.random() * 20;
-    p.style.cssText = `
-      width:${size}px; height:${size}px;
-      background:${colors[i % colors.length]};
-      left:${Math.random() * 100}%;
-      top:${Math.random() * 100}%;
-      animation-delay:${Math.random() * 8}s;
-      animation-duration:${8 + Math.random() * 8}s;
-    `;
-    container.appendChild(p);
+    const s = 6 + Math.random() * 18;
+    p.style.cssText = `width:${s}px;height:${s}px;background:${cols[i%5]};left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*8}s;animation-duration:${8+Math.random()*7}s;`;
+    c.appendChild(p);
   }
 })();
 
-/* ── SCROLL FADE-IN OBSERVER ─────────────────────────── */
-const observer = new IntersectionObserver(
-  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+/* ── TOUR CARDS ───────────────────────────────────────── */
+function renderTourCard(t) {
+  const dc = {Easy:'pill-teal',Moderate:'pill-orange','Easy–Moderate':'pill-yellow'}[t.difficulty]||'pill-glass';
+  return `<article class="tour-card fade-in">
+    <div class="tour-card-accent" style="background:${t.gradient}"></div>
+    <div class="tour-card-header">
+      <span class="tour-card-emoji">${t.emoji}</span>
+      <h3 class="tour-card-title">${t.title}</h3>
+      <p class="tour-card-desc">${t.shortDesc}</p>
+    </div>
+    <div class="tour-card-meta">
+      <span class="pill pill-glass">⏱ ${t.duration}h</span>
+      <span class="pill pill-glass">👥 Max ${t.maxCapacity}</span>
+      <span class="pill ${dc}">${t.difficulty}</span>
+    </div>
+    <div class="tour-card-footer">
+      <div class="tour-card-price">$${t.price} <span>CAD/person</span></div>
+      <a href="tour-detail.html?tour=${t.id}" class="btn btn-sm" style="background:${t.gradient};color:#fff;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,0.25);">Details →</a>
+    </div>
+  </article>`;
+}
+
+/* ── BLOG CARDS ───────────────────────────────────────── */
+function renderBlogCard(b) {
+  return `<article class="blog-card fade-in">
+    <div class="blog-card-thumb">${b.emoji}</div>
+    <div class="blog-card-body">
+      <span class="blog-card-cat" style="background:${b.categoryColor}20;color:${b.categoryColor};border:1px solid ${b.categoryColor}40;">${b.category}</span>
+      <h3 class="blog-card-title">${b.title}</h3>
+      <p class="blog-card-excerpt">${b.excerpt}</p>
+      <div class="blog-card-footer">
+        <span class="blog-meta">${b.date} · ${b.readTime}</span>
+        <a href="blog.html" class="btn btn-sm btn-secondary">Read →</a>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* ── RENDER ───────────────────────────────────────────── */
+document.getElementById('toursGrid').innerHTML = TOURS_DB.map(renderTourCard).join('');
+document.getElementById('blogGrid').innerHTML  = BLOG_DB.slice(0,3).map(renderBlogCard).join('');
+
+/* ── FADE-IN OBSERVER ─────────────────────────────────── */
+const obs = new IntersectionObserver(
+  es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
 );
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>

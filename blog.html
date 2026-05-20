@@ -1,479 +1,424 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Adventure Blog — Discovery Adventures</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
-/* ── BLOG PAGE STYLES ────────────────────────────────── */
-
-/* FEATURED POST */
+/* ── BLOG PAGE ─────────────────────────────────────────── */
 .featured-post {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--glass-border);
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
   border-radius: 22px;
   overflow: hidden;
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 2.5rem;
-  transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, var(--transition-theme);
 }
-.featured-post:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 24px 60px -16px rgba(21,32,58,0.7);
-}
+.featured-post:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
 .featured-visual {
-  background: linear-gradient(135deg, #15203a 0%, #1a1060 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 6rem;
-  min-height: 320px;
-  position: relative;
-  overflow: hidden;
+  min-height: 300px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5.5rem;
+  background: var(--bg-glass);
+  position: relative; overflow: hidden;
 }
-.featured-visual::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, rgba(240,138,46,0.2), transparent 70%);
-}
+[data-theme="light"] .featured-visual { background: var(--bg-card); }
 .featured-badge {
-  position: absolute;
-  top: 1.25rem; left: 1.25rem;
-  padding: 0.3rem 0.8rem;
-  background: var(--grad-main);
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  position: absolute; top: 1.2rem; left: 1.2rem;
+  background: var(--grad-main); color: #fff;
+  padding: 0.28rem 0.78rem; border-radius: 999px;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
 }
 .featured-body {
-  padding: 2.5rem 2.25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 2.25rem;
+  display: flex; flex-direction: column; justify-content: center;
 }
 .featured-cat {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
+  display: inline-flex; align-items: center;
+  padding: 0.22rem 0.72rem; border-radius: 999px;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 1rem; align-self: flex-start;
 }
 .featured-title {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 1.7rem;
-  letter-spacing: -0.03em;
-  color: white;
-  line-height: 1.2;
-  margin-bottom: 0.85rem;
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 1.65rem; letter-spacing: -0.03em; color: var(--text-primary);
+  line-height: 1.2; margin-bottom: 0.82rem;
+  transition: color 0.3s;
 }
 .featured-excerpt {
-  font-size: 0.92rem;
-  color: var(--text-muted);
-  line-height: 1.65;
-  margin-bottom: 1.5rem;
+  font-size: 0.9rem; color: var(--text-secondary);
+  line-height: 1.65; margin-bottom: 1.4rem;
+  transition: color 0.3s;
 }
-.featured-meta {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  font-size: 0.78rem;
-  color: var(--text-dim);
+.featured-meta { display: flex; align-items: center; gap: 1.2rem; font-size: 0.76rem; color: var(--text-dim); }
+.blog-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.85rem; }
+.blog-tag {
+  font-size: 0.63rem; padding: 0.15rem 0.5rem;
+  border-radius: 4px; background: var(--bg-glass);
+  color: var(--text-secondary); font-weight: 600;
+  border: 1px solid var(--border-soft);
 }
 
-/* TAG FILTERS */
-.tag-filters {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  margin-bottom: 2.5rem;
-  align-items: center;
-}
-.tag-filter-label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-right: 0.4rem;
-}
+/* FILTER CHIPS */
+.tag-filters { display: flex; gap: 0.55rem; flex-wrap: wrap; margin-bottom: 2.25rem; align-items: center; }
+.tag-filter-lbl { font-size: 0.74rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 0.3rem; }
 
 /* BLOG GRID */
-.blog-masonry {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
+.blog-masonry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
 .blog-post-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 18px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s, box-shadow 0.3s;
+  background: var(--bg-card-alt); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden;
+  display: flex; flex-direction: column;
   cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, var(--transition-theme);
 }
-.blog-post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px -12px rgba(21,32,58,0.6);
-}
+.blog-post-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-card); }
 .blog-post-visual {
-  height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3.5rem;
-  position: relative;
-  overflow: hidden;
+  height: 138px; display: flex; align-items: center; justify-content: center;
+  font-size: 3.2rem; background: var(--bg-glass);
 }
-.blog-post-body {
-  padding: 1.25rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+[data-theme="light"] .blog-post-visual { background: var(--bg-card); }
+.blog-post-body { padding: 1.2rem; flex: 1; display: flex; flex-direction: column; }
 .blog-post-cat {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-  align-self: flex-start;
+  display: inline-flex; align-items: center;
+  padding: 0.18rem 0.62rem; border-radius: 999px;
+  font-size: 0.63rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 0.7rem; align-self: flex-start;
 }
 .blog-post-title {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
-  color: white;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-  margin-bottom: 0.6rem;
-  flex: 1;
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+  font-size: 0.98rem; color: var(--text-primary); letter-spacing: -0.02em;
+  line-height: 1.3; margin-bottom: 0.55rem; flex: 1;
+  transition: color 0.3s;
 }
 .blog-post-excerpt {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6;
+  margin-bottom: 0.9rem;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  transition: color 0.3s;
 }
 .blog-post-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid var(--glass-border);
-  padding-top: 0.85rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border-soft); padding-top: 0.82rem;
 }
-.blog-post-meta {
-  font-size: 0.73rem;
-  color: var(--text-dim);
-}
-
-/* TAG CHIPS */
-.blog-tags {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-  margin-top: 0.6rem;
-}
-.blog-tag {
-  font-size: 0.65rem;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.07);
-  color: var(--text-muted);
-  font-weight: 600;
-}
+.blog-post-meta { font-size: 0.71rem; color: var(--text-dim); }
 
 /* NEWSLETTER */
 .newsletter-strip {
-  background: linear-gradient(135deg, rgba(177,74,214,0.15), rgba(44,199,193,0.12));
-  border: 1px solid var(--glass-border);
-  border-radius: 22px;
-  padding: 3rem 2.5rem;
-  text-align: center;
-  margin-top: 3rem;
+  background: var(--bg-glass); border: 1px solid var(--border);
+  border-radius: 22px; padding: 3rem 2.5rem; text-align: center; margin-top: 3rem;
+  transition: var(--transition-theme);
 }
-.newsletter-title {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 1.8rem;
-  letter-spacing: -0.03em;
-  color: white;
-  margin-bottom: 0.5rem;
-}
-.newsletter-sub { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-.newsletter-form {
-  display: flex;
-  max-width: 440px;
-  margin: 0 auto;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
+.newsletter-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.75rem; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 0.5rem; transition: color 0.3s; }
+.newsletter-sub   { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; transition: color 0.3s; }
+.newsletter-form  { display: flex; max-width: 440px; margin: 0 auto; gap: 0.7rem; flex-wrap: wrap; }
 .newsletter-input {
-  flex: 1;
-  padding: 0.8rem 1.1rem;
-  border-radius: 999px;
-  border: 1px solid var(--glass-border);
-  background: rgba(255,255,255,0.08);
-  color: white;
-  font-size: 0.9rem;
-  outline: none;
-  min-width: 200px;
+  flex: 1; min-width: 180px;
+  padding: 0.78rem 1.1rem; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--input-bg); color: var(--input-text);
+  font-size: 0.9rem; outline: none; transition: border-color 0.2s, var(--transition-theme);
 }
-.newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+.newsletter-input::placeholder { color: var(--input-placeholder); }
 .newsletter-input:focus { border-color: var(--purple); }
-.newsletter-success {
-  color: var(--teal);
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: none;
-  margin-top: 0.75rem;
+.newsletter-success { color: var(--teal); font-weight: 700; font-size: 0.9rem; display: none; margin-top: 0.75rem; }
+
+/* ── ARTICLE MODAL ──────────────────────────────────────── */
+.article-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(8,14,30,0.88); backdrop-filter: blur(10px);
+  z-index: 9500;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 2rem 1rem;
+  opacity: 0; pointer-events: none; transition: opacity 0.28s;
+  overflow-y: auto;
+}
+.article-modal-overlay.active { opacity: 1; pointer-events: all; }
+.article-modal-box {
+  background: var(--bg-card-alt); border: 1px solid var(--border);
+  border-radius: 24px; width: 100%; max-width: 720px;
+  transform: translateY(24px) scale(0.97);
+  transition: transform 0.28s, var(--transition-theme);
+  overflow: hidden; margin: auto;
+}
+.article-modal-overlay.active .article-modal-box { transform: none; }
+
+.article-modal-hero {
+  height: 180px; display: flex; align-items: center; justify-content: center;
+  font-size: 5rem; position: relative;
+  background: var(--bg-glass);
+}
+[data-theme="light"] .article-modal-hero { background: var(--bg-page); }
+.article-modal-cat {
+  position: absolute; bottom: 1rem; left: 1.5rem;
+  padding: 0.22rem 0.72rem; border-radius: 999px;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.article-modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
+  color: #fff; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s;
+}
+.article-modal-close:hover { background: rgba(0,0,0,0.65); }
+.article-body { padding: 2rem 2.25rem 2.5rem; }
+.article-meta { display: flex; align-items: center; gap: 1.25rem; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 1.5rem; }
+.article-title {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 2rem); letter-spacing: -0.03em;
+  color: var(--text-primary); line-height: 1.15; margin-bottom: 1.25rem;
+  transition: color 0.3s;
+}
+.article-lead {
+  font-size: 1rem; color: var(--text-primary); line-height: 1.75;
+  margin-bottom: 1.75rem; font-weight: 500;
+  transition: color 0.3s;
+}
+.article-h2 {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: 1.2rem; letter-spacing: -0.02em; color: var(--text-primary);
+  margin: 1.75rem 0 0.65rem; line-height: 1.25;
+  transition: color 0.3s;
+}
+.article-p {
+  font-size: 0.9rem; color: var(--text-secondary); line-height: 1.78;
+  margin-bottom: 1rem; transition: color 0.3s;
+}
+.article-tip {
+  background: rgba(255,210,74,0.09); border: 1px solid rgba(255,210,74,0.28);
+  border-radius: 12px; padding: 0.95rem 1.1rem;
+  font-size: 0.86rem; color: var(--text-primary); line-height: 1.6;
+  margin: 1.1rem 0; transition: var(--transition-theme);
+}
+[data-theme="light"] .article-tip { background: rgba(240,138,46,0.07); border-color: rgba(240,138,46,0.22); }
+.article-tip strong { color: var(--yellow); font-weight: 700; }
+[data-theme="light"] .article-tip strong { color: #9a6e00; }
+.article-list {
+  margin: 0.75rem 0 1rem 0;
+  display: flex; flex-direction: column; gap: 0.45rem;
+}
+.article-list li {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55;
+  transition: color 0.3s;
+}
+.article-list li::before { content: '→'; color: var(--teal); font-weight: 900; flex-shrink: 0; margin-top: 0.02rem; }
+.article-closing {
+  margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border-soft);
+  font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;
+  font-style: italic; transition: color 0.3s;
+}
+.article-cta {
+  margin-top: 1.75rem; display: flex; gap: 0.85rem; flex-wrap: wrap;
 }
 
 /* RESPONSIVE */
-@media (max-width: 900px) {
-  .featured-post { grid-template-columns: 1fr; }
-  .featured-visual { min-height: 200px; }
-  .blog-masonry { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 600px) { .blog-masonry { grid-template-columns: 1fr; } }
+@media (max-width: 900px)  { .featured-post { grid-template-columns: 1fr; } .featured-visual { min-height: 180px; } .blog-masonry { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px)  { .blog-masonry { grid-template-columns: 1fr; } }
+@media (max-width: 500px)  { .article-body { padding: 1.5rem; } }
 </style>
 </head>
 <body>
 
-<!-- ── NAVIGATION ─────────────────────────────────────── -->
+<!-- ── NAV ────────────────────────────────────────────────── -->
 <nav class="site-nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <div class="nav-logo-badge">🧭</div>
-      <span class="nav-logo-name">Discovery Adventures</span>
-    </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="index.html" class="nav-logo"><div class="nav-logo-badge">🧭</div><span class="nav-logo-name">Discovery Adventures</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="tours.html" class="nav-link">Tours</a>
+      <a href="index.html"    class="nav-link">Home</a>
+      <a href="tours.html"    class="nav-link">Tours</a>
       <a href="calendar.html" class="nav-link">Calendar</a>
-      <a href="blog.html" class="nav-link active">Blog</a>
-      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="blog.html"     class="nav-link active">Blog</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"></button>
       <a href="tours.html" class="nav-cta">Book Now</a>
     </div>
   </div>
 </nav>
 
-<!-- ── PAGE HERO ───────────────────────────────────────── -->
+<!-- ── HERO ───────────────────────────────────────────────── -->
 <section class="page-hero">
   <div class="container page-hero-inner">
-    <div class="section-eyebrow">📖 Adventure Journal</div>
-    <h1 class="section-title" style="font-size:clamp(2.5rem,6vw,4rem);">The Blog</h1>
-    <p class="section-subtitle">Packing guides, destination deep-dives, safety tips, and insider knowledge from our team of certified adventure guides.</p>
+    <div class="section-eyebrow">📖 Ontario Adventure Journal</div>
+    <h1 class="section-title" style="font-size:clamp(2.4rem,6vw,3.8rem);">The Blog</h1>
+    <p class="section-subtitle">Packing guides, destination deep-dives, safety tips, and Ontario wilderness knowledge from our certified adventure guides.</p>
   </div>
 </section>
 
-<!-- ── BLOG CONTENT ────────────────────────────────────── -->
-<section class="section" style="background:linear-gradient(180deg,#0f1929 0%,var(--navy) 100%);">
+<!-- ── BLOG CONTENT ────────────────────────────────────────── -->
+<section class="section" style="background:var(--section-alt);transition:var(--transition-theme);">
   <div class="container">
+    <!-- Featured post -->
+    <div class="featured-post" id="featuredPost" onclick="openArticle(0)" role="article" tabindex="0"></div>
 
-    <!-- Featured Post -->
-    <div class="featured-post" id="featuredPost"><!-- injected --></div>
-
-    <!-- Tag Filters -->
+    <!-- Filters -->
     <div class="tag-filters">
-      <span class="tag-filter-label">Filter:</span>
+      <span class="tag-filter-lbl">Filter:</span>
       <button class="filter-chip active" data-cat="all">All Articles</button>
       <button class="filter-chip" data-cat="Travel Tips">Travel Tips</button>
       <button class="filter-chip" data-cat="Destination Guides">Destination Guides</button>
       <button class="filter-chip" data-cat="Safety">Safety</button>
     </div>
 
-    <!-- Blog Grid -->
-    <div class="blog-masonry" id="blogMasonry"><!-- injected --></div>
+    <!-- Grid -->
+    <div class="blog-masonry" id="blogMasonry"></div>
 
     <!-- Newsletter -->
     <div class="newsletter-strip">
-      <div class="newsletter-title">📬 Get Adventure Inspiration Weekly</div>
-      <p class="newsletter-sub">New trip guides, seasonal deals, and insider tips delivered to your inbox every week.</p>
+      <div class="newsletter-title">📬 Weekly Ontario Adventure Guides</div>
+      <p class="newsletter-sub">New trip guides, seasonal deals, and insider tips — every week in your inbox.</p>
       <div class="newsletter-form">
-        <input class="newsletter-input" type="email" id="newsletterEmail" placeholder="your@email.com" autocomplete="email"/>
-        <button class="btn btn-primary" id="newsletterBtn" style="border-radius:999px;">Subscribe</button>
+        <input class="newsletter-input" type="email" id="nlEmail" placeholder="your@email.com" autocomplete="email"/>
+        <button class="btn btn-primary" id="nlBtn" style="border-radius:999px;">Subscribe</button>
       </div>
-      <div class="newsletter-success" id="newsletterSuccess">🎉 You're subscribed! Welcome to the crew.</div>
+      <div class="newsletter-success" id="nlSuccess">🎉 You're in! Welcome to the Discovery Adventures crew.</div>
     </div>
-
   </div>
 </section>
 
-<!-- ── SITE FOOTER ─────────────────────────────────────── -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <a href="index.html" class="nav-logo" style="display:inline-flex; margin-bottom:0.5rem;">
-          <div class="nav-logo-badge">🧭</div>
-          <span class="nav-logo-name" style="font-size:1.1rem;">Discovery Adventures</span>
-        </a>
-        <p class="footer-brand-desc">Expert-guided Canadian day trips. All-inclusive, safety-first, unforgettable.</p>
-      </div>
-      <div>
-        <div class="footer-col-title">Navigate</div>
-        <div class="footer-links">
-          <a href="index.html">Home</a>
-          <a href="tours.html">All Tours</a>
-          <a href="calendar.html">Calendar</a>
-          <a href="blog.html">Blog</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Adventures</div>
-        <div class="footer-links">
-          <a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a>
-          <a href="tour-detail.html?tour=banff-lake-louise">Banff & Lake Louise</a>
-          <a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a>
-          <a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Contact</div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">📞</span>
-          <div><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">✉️</span>
-          <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-legal">© 2026 Discovery Adventures · All prices in CAD · All sales final</div>
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram">📸</a>
-        <a href="#" aria-label="Facebook">👥</a>
-        <a href="https://wa.me/16472672948" aria-label="WhatsApp">💬</a>
-      </div>
-    </div>
-  </div>
-</footer>
+<!-- ── ARTICLE MODAL ────────────────────────────────────────── -->
+<div class="article-modal-overlay" id="articleModal" role="dialog" aria-modal="true" aria-label="Article">
+  <div class="article-modal-box" id="articleModalBox"></div>
+</div>
 
-<!-- ── SCRIPTS ──────────────────────────────────────────── -->
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer class="site-footer"><div class="container">
+  <div class="footer-grid">
+    <div><a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;"><div class="nav-logo-badge">🧭</div><span class="nav-logo-name">Discovery Adventures</span></a><p class="footer-brand-desc">Expert-guided Ontario day trips from the GTA. All-inclusive, safety-first, unforgettable.</p></div>
+    <div><div class="footer-col-title">Navigate</div><div class="footer-links"><a href="index.html">Home</a><a href="tours.html">All Tours</a><a href="calendar.html">Calendar</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div></div>
+    <div><div class="footer-col-title">Destinations</div><div class="footer-links"><a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a><a href="tour-detail.html?tour=muskoka-lakes">Muskoka Lakes</a><a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a><a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a></div></div>
+    <div><div class="footer-col-title">Contact</div><div class="footer-contact-row">📞 <div><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div></div><div class="footer-contact-row">✉️ <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div></div></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-legal">© 2026 Discovery Adventures · All prices in CAD</div><div class="footer-social"><a href="#">📸</a><a href="#">👥</a><a href="https://wa.me/16472672948">💬</a></div></div>
+</div></footer>
+
+<script src="js/theme.js"></script>
 <script src="js/data.js"></script>
 <script>
-/* ── NAV ─────────────────────────────────────────────── */
-document.getElementById('navToggle').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
+let activeCat = 'all';
 
-/* ── BACKGROUND GRADIENTS PER CATEGORY ──────────────── */
-const CATEGORY_BKGS = {
-  'Travel Tips':       'linear-gradient(135deg,#1e3040 0%,#0d2a20 100%)',
-  'Destination Guides':'linear-gradient(135deg,#2a1a3a 0%,#15203a 100%)',
-  'Safety':            'linear-gradient(135deg,#0d2a2a 0%,#15203a 100%)',
-};
+/* ── BUILD ARTICLE HTML ───────────────────────────────────── */
+function buildArticleHTML(post) {
+  const a = post.article;
+  const sectionsHTML = a.sections.map(s => {
+    let html = `<h2 class="article-h2">${s.h2}</h2><p class="article-p">${s.body}</p>`;
+    if (s.tip)  html += `<div class="article-tip"><strong>💡 Guide Tip:</strong> ${s.tip}</div>`;
+    if (s.list) html += `<ul class="article-list">${s.list.map(li=>`<li>${li}</li>`).join('')}</ul>`;
+    return html;
+  }).join('');
 
-/* ── RENDER FEATURED ─────────────────────────────────── */
-function renderFeatured(post) {
-  const bkg = CATEGORY_BKGS[post.category] || CATEGORY_BKGS['Travel Tips'];
-  document.getElementById('featuredPost').innerHTML = `
-    <div class="featured-visual" style="background:${bkg}">
-      <div style="position:relative;z-index:1;font-size:5rem">${post.emoji}</div>
-      <div class="featured-badge">⭐ Featured</div>
+  return `
+    <div class="article-modal-hero" style="background:linear-gradient(135deg,var(--bg-glass),var(--bg-page));">
+      <span style="position:relative;z-index:1;">${post.emoji}</span>
+      <span class="article-modal-cat" style="background:${post.categoryColor}22;color:${post.categoryColor};border:1px solid ${post.categoryColor}44;">${post.category}</span>
+      <button class="article-modal-close" onclick="closeArticle()" aria-label="Close article">✕</button>
     </div>
-    <div class="featured-body">
-      <span class="featured-cat" style="background:${post.categoryColor}22; color:${post.categoryColor}; border:1px solid ${post.categoryColor}44;">
-        ${post.category}
-      </span>
-      <h2 class="featured-title">${post.title}</h2>
-      <p class="featured-excerpt">${post.excerpt}</p>
-      <div class="featured-meta">
+    <div class="article-body">
+      <div class="article-meta">
         <span>📅 ${post.date}</span>
         <span>⏱ ${post.readTime}</span>
+        <span>${post.tags.map(t=>`<span class="blog-tag">#${t}</span>`).join(' ')}</span>
       </div>
-      <div class="blog-tags" style="margin-top:1rem;">
-        ${post.tags.map(t=>`<span class="blog-tag">#${t}</span>`).join('')}
+      <h1 class="article-title">${post.title}</h1>
+      <p class="article-lead">${a.lead}</p>
+      ${sectionsHTML}
+      <div class="article-closing">${a.closing}</div>
+      <div class="article-cta">
+        <a href="tours.html" class="btn btn-primary">Browse Our Ontario Tours →</a>
+        <a href="contact.html" class="btn btn-secondary">Ask a Question</a>
       </div>
     </div>`;
 }
 
-/* ── RENDER BLOG GRID ────────────────────────────────── */
-let activeCat = 'all';
+/* ── OPEN / CLOSE ARTICLE ─────────────────────────────────── */
+function openArticle(idx) {
+  const post = BLOG_DB[idx];
+  if (!post) return;
+  document.getElementById('articleModalBox').innerHTML = buildArticleHTML(post);
+  const overlay = document.getElementById('articleModal');
+  overlay.classList.add('active');
+  overlay.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeArticle() {
+  document.getElementById('articleModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('articleModal').addEventListener('click', e => {
+  if (e.target.id === 'articleModal') closeArticle();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArticle(); });
 
-function renderBlogGrid() {
-  const filtered = activeCat === 'all'
-    ? BLOG_DB.slice(1)
-    : BLOG_DB.slice(1).filter(p => p.category === activeCat);
-
-  const bkg = (cat) => CATEGORY_BKGS[cat] || CATEGORY_BKGS['Travel Tips'];
-
-  document.getElementById('blogMasonry').innerHTML = filtered.map(post => `
-    <article class="blog-post-card">
-      <div class="blog-post-visual" style="background:${bkg(post.category)}">
-        ${post.emoji}
-      </div>
-      <div class="blog-post-body">
-        <span class="blog-post-cat" style="background:${post.categoryColor}22; color:${post.categoryColor}; border:1px solid ${post.categoryColor}44;">
-          ${post.category}
-        </span>
-        <h3 class="blog-post-title">${post.title}</h3>
-        <p class="blog-post-excerpt">${post.excerpt}</p>
-        <div class="blog-tags">
-          ${post.tags.map(t=>`<span class="blog-tag">#${t}</span>`).join('')}
-        </div>
-        <div class="blog-post-footer">
-          <span class="blog-post-meta">${post.date} · ${post.readTime}</span>
-          <span style="color:var(--orange);font-size:0.8rem;font-weight:600;">Read →</span>
-        </div>
-      </div>
-    </article>`).join('') || `<div class="no-results" style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">No articles in this category yet.</div>`;
+/* ── RENDER FEATURED ──────────────────────────────────────── */
+function renderFeatured() {
+  const p = BLOG_DB[0];
+  document.getElementById('featuredPost').innerHTML = `
+    <div class="featured-visual">
+      <span style="position:relative;z-index:1;">${p.emoji}</span>
+      <div class="featured-badge">⭐ Featured</div>
+    </div>
+    <div class="featured-body">
+      <span class="featured-cat" style="background:${p.categoryColor}20;color:${p.categoryColor};border:1px solid ${p.categoryColor}40;">${p.category}</span>
+      <h2 class="featured-title">${p.title}</h2>
+      <p class="featured-excerpt">${p.excerpt}</p>
+      <div class="featured-meta"><span>📅 ${p.date}</span><span>⏱ ${p.readTime}</span></div>
+      <div class="blog-tags">${p.tags.map(t=>`<span class="blog-tag">#${t}</span>`).join('')}</div>
+    </div>`;
 }
 
-/* ── FILTER CHIPS ────────────────────────────────────── */
-document.querySelectorAll('.filter-chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    activeCat = chip.dataset.cat;
-    renderBlogGrid();
-  });
+/* ── RENDER GRID ──────────────────────────────────────────── */
+function renderGrid() {
+  const rest = BLOG_DB.slice(1);
+  const filtered = activeCat === 'all' ? rest : rest.filter(p => p.category === activeCat);
+  document.getElementById('blogMasonry').innerHTML = filtered.map((post, i) => `
+    <article class="blog-post-card" onclick="openArticle(${BLOG_DB.indexOf(post)})" tabindex="0" role="article">
+      <div class="blog-post-visual">${post.emoji}</div>
+      <div class="blog-post-body">
+        <span class="blog-post-cat" style="background:${post.categoryColor}20;color:${post.categoryColor};border:1px solid ${post.categoryColor}40;">${post.category}</span>
+        <h3 class="blog-post-title">${post.title}</h3>
+        <p class="blog-post-excerpt">${post.excerpt}</p>
+        <div class="blog-tags" style="margin-bottom:0.75rem;">${post.tags.map(t=>`<span class="blog-tag">#${t}</span>`).join('')}</div>
+        <div class="blog-post-footer">
+          <span class="blog-post-meta">${post.date} · ${post.readTime}</span>
+          <span style="color:var(--orange);font-size:0.78rem;font-weight:600;">Read article →</span>
+        </div>
+      </div>
+    </article>`).join('') || `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-secondary);">No articles in this category yet.</div>`;
+}
+
+/* ── KEYBOARD SUPPORT FOR CARDS ───────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.classList.contains('blog-post-card')) e.target.click();
+  if (e.key === 'Enter' && e.target.id === 'featuredPost') openArticle(0);
 });
 
-/* ── NEWSLETTER ──────────────────────────────────────── */
-document.getElementById('newsletterBtn').addEventListener('click', () => {
-  const email = document.getElementById('newsletterEmail').value.trim();
+/* ── FILTER CHIPS ─────────────────────────────────────────── */
+document.querySelectorAll('.filter-chip').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
+  c.classList.add('active'); activeCat = c.dataset.cat; renderGrid();
+}));
+
+/* ── NEWSLETTER ───────────────────────────────────────────── */
+document.getElementById('nlBtn').addEventListener('click', () => {
+  const email = document.getElementById('nlEmail').value.trim();
+  const input = document.getElementById('nlEmail');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    document.getElementById('newsletterEmail').style.borderColor = 'var(--pink)';
-    return;
+    input.style.borderColor = 'var(--pink)'; return;
   }
-  document.getElementById('newsletterEmail').style.borderColor = 'var(--teal)';
-  document.getElementById('newsletterSuccess').style.display = 'block';
-  document.getElementById('newsletterBtn').disabled = true;
-  document.getElementById('newsletterBtn').textContent = '✓ Subscribed!';
+  input.style.borderColor = 'var(--teal)';
+  document.getElementById('nlSuccess').style.display = 'block';
+  document.getElementById('nlBtn').disabled = true;
+  document.getElementById('nlBtn').textContent = '✓ Subscribed!';
 });
 
-/* ── INIT ────────────────────────────────────────────── */
-renderFeatured(BLOG_DB[0]);
-renderBlogGrid();
+/* ── INIT ─────────────────────────────────────────────────── */
+renderFeatured(); renderGrid();
 </script>
 </body>
 </html>

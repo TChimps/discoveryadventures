@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f08a2e"/>
+      <stop offset="50%" stop-color="#ec3a6b"/>
+      <stop offset="100%" stop-color="#b14ad6"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <circle cx="32" cy="32" r="19" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+  <line x1="32" y1="14" x2="32" y2="18" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+  <line x1="32" y1="46" x2="32" y2="50" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+  <line x1="14" y1="32" x2="18" y2="32" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+  <line x1="46" y1="32" x2="50" y2="32" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+  <polygon points="32,15 28.5,32 32,29.5 35.5,32" fill="white"/>
+  <polygon points="32,49 28.5,32 32,34.5 35.5,32" fill="rgba(255,255,255,0.42)"/>
+  <polygon points="49,32 32,28.5 34.5,32 32,35.5" fill="rgba(255,255,255,0.42)"/>
+  <polygon points="15,32 32,28.5 29.5,32 32,35.5" fill="rgba(255,255,255,0.42)"/>
+  <circle cx="32" cy="32" r="3.2" fill="white"/>
+  <circle cx="32" cy="32" r="1.6" fill="#f08a2e"/>
+</svg>

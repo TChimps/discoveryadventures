@@ -1,544 +1,302 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Contact Us — Discovery Adventures</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
-/* ── CONTACT PAGE STYLES ─────────────────────────────── */
-.contact-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
-  align-items: start;
-}
+.contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:start; }
 
-/* INFO PANEL */
-.contact-info-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 22px;
-  overflow: hidden;
-  position: sticky;
-  top: calc(var(--nav-h) + 1.5rem);
-}
-.contact-info-header {
-  background: var(--grad-dark);
-  padding: 2rem;
-  border-bottom: 1px solid var(--glass-border);
-  position: relative;
-  overflow: hidden;
-}
-.contact-info-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 80% 20%, rgba(240,138,46,0.2) 0%, transparent 55%);
-}
-.contact-logo { position: relative; z-index: 1; display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
-.contact-info-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.4rem; color: white; letter-spacing: -0.03em; position: relative; z-index: 1; margin-bottom: 0.4rem; }
-.contact-info-sub { font-size: 0.88rem; color: var(--text-muted); position: relative; z-index: 1; line-height: 1.5; }
+/* INFO CARD */
+.contact-info-card { background:var(--bg-card-alt); border:1px solid var(--border); border-radius:22px; overflow:hidden; position:sticky; top:calc(var(--nav-h) + 1.5rem); transition:var(--transition-theme); }
+.contact-info-hdr  { background:var(--hero-grad); padding:1.85rem 2rem; border-bottom:1px solid var(--border); position:relative; overflow:hidden; transition:var(--transition-theme); }
+.contact-info-hdr::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 80% 20%,rgba(240,138,46,0.18) 0%,transparent 55%); }
+.contact-info-hdr-inner { position:relative; z-index:1; }
+.contact-info-title { font-family:'Nunito',sans-serif; font-weight:900; font-size:1.35rem; color:var(--text-primary); letter-spacing:-0.02em; margin-top:0.85rem; margin-bottom:0.38rem; transition:color 0.3s; }
+.contact-info-sub   { font-size:0.85rem; color:var(--text-secondary); line-height:1.55; transition:color 0.3s; }
 
-.contact-info-body { padding: 1.75rem 2rem; }
-.contact-method {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--glass-border);
-}
-.contact-method:last-of-type { border-bottom: none; }
-.contact-method-icon {
-  width: 42px; height: 42px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-.contact-method-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.2rem; }
-.contact-method-val { font-size: 0.95rem; font-weight: 600; color: white; }
-.contact-method-val a { color: var(--yellow); text-decoration: none; transition: color 0.2s; }
-.contact-method-val a:hover { color: white; }
-.contact-method-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+.contact-methods { padding:1.5rem 1.85rem; }
+.contact-method { display:flex; align-items:flex-start; gap:0.95rem; padding:0.95rem 0; border-bottom:1px solid var(--border-soft); }
+.contact-method:last-child { border-bottom:none; }
+.cm-icon { width:40px;height:40px; border-radius:11px; display:flex;align-items:center;justify-content:center; font-size:1.1rem; flex-shrink:0; }
+.cm-label { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-secondary); margin-bottom:0.18rem; }
+.cm-val   { font-size:0.92rem; font-weight:600; color:var(--text-primary); transition:color 0.3s; }
+.cm-val a { color:var(--yellow); transition:color 0.2s; }
+.cm-val a:hover { color:var(--text-primary); }
+.cm-sub   { font-size:0.76rem; color:var(--text-secondary); margin-top:0.18rem; transition:color 0.3s; }
 
 /* QUICK ACTIONS */
-.quick-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  padding: 1.5rem 2rem;
-  background: rgba(0,0,0,0.15);
-  border-top: 1px solid var(--glass-border);
-}
-.quick-action-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.9rem 0.5rem;
-  border-radius: 14px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass);
-  color: white;
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
-  transition: all 0.2s;
-  cursor: pointer;
-}
-.quick-action-btn span { font-size: 1.4rem; }
-.quick-action-btn:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); border-color: rgba(255,255,255,0.25); }
-.quick-action-btn.whatsapp:hover { border-color: #25d366; color: #25d366; }
-.quick-action-btn.email:hover    { border-color: var(--orange); color: var(--orange); }
-.quick-action-btn.phone:hover    { border-color: var(--teal); color: var(--teal); }
-.quick-action-btn.map:hover      { border-color: var(--purple); color: var(--purple); }
+.quick-actions { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; padding:1.4rem 1.85rem; background:var(--bg-glass); border-top:1px solid var(--border); transition:var(--transition-theme); }
+.qa-btn { display:flex; flex-direction:column; align-items:center; gap:0.38rem; padding:0.88rem 0.5rem; border-radius:13px; border:1px solid var(--border); background:var(--bg-glass); color:var(--text-primary); font-size:0.76rem; font-weight:600; text-align:center; text-decoration:none; cursor:pointer; transition:all 0.2s; }
+.qa-btn:hover { background:var(--bg-glass-hover); transform:translateY(-2px); }
+.qa-btn.wa:hover    { border-color:#25d366; color:#25d366; }
+.qa-btn.email:hover { border-color:var(--orange); color:var(--orange); }
+.qa-btn.phone:hover { border-color:var(--teal);   color:var(--teal); }
+.qa-btn.map:hover   { border-color:var(--purple);  color:var(--purple); }
+.qa-btn-icon { font-size:1.35rem; }
 
-/* MAP PLACEHOLDER */
-.map-placeholder {
-  margin: 0 2rem 2rem;
-  background: linear-gradient(135deg, rgba(44,199,193,0.1), rgba(177,74,214,0.08));
-  border: 1px solid rgba(44,199,193,0.2);
-  border-radius: 16px;
-  height: 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  text-align: center;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.map-placeholder:hover { background: linear-gradient(135deg, rgba(44,199,193,0.16), rgba(177,74,214,0.12)); }
-.map-placeholder-icon { font-size: 2rem; }
-.map-placeholder-text { font-size: 0.82rem; color: var(--text-muted); }
-.map-placeholder-link { font-size: 0.78rem; color: var(--teal); font-weight: 600; }
+/* MAP */
+.map-placeholder { margin:0 1.85rem 1.85rem; background:var(--bg-glass); border:1px solid var(--border); border-radius:14px; height:130px; display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.45rem; cursor:pointer; transition:background 0.2s; }
+.map-placeholder:hover { background:var(--bg-glass-hover); }
+.map-ph-icon { font-size:1.75rem; }
+.map-ph-text { font-size:0.8rem; color:var(--text-secondary); }
+.map-ph-link { font-size:0.76rem; color:var(--teal); font-weight:600; }
 
 /* INQUIRY FORM */
-.inquiry-form-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 22px;
-  overflow: hidden;
-}
-.inquiry-form-header {
-  padding: 1.75rem 2rem 1.25rem;
-  border-bottom: 1px solid var(--glass-border);
-}
-.inquiry-form-title {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 1.4rem;
-  letter-spacing: -0.03em;
-  color: white;
-  margin-bottom: 0.35rem;
-}
-.inquiry-form-sub { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; }
-.inquiry-form-body { padding: 1.75rem 2rem; }
+.inquiry-card { background:var(--bg-card-alt); border:1px solid var(--border); border-radius:22px; overflow:hidden; transition:var(--transition-theme); }
+.inquiry-hdr  { padding:1.65rem 2rem 1.25rem; border-bottom:1px solid var(--border); }
+.inquiry-title{ font-family:'Nunito',sans-serif; font-weight:900; font-size:1.35rem; letter-spacing:-0.02em; color:var(--text-primary); margin-bottom:0.32rem; transition:color 0.3s; }
+.inquiry-sub  { font-size:0.84rem; color:var(--text-secondary); line-height:1.55; transition:color 0.3s; }
+.inquiry-body { padding:1.65rem 2rem; }
+.form-row     { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.consent-row  { display:flex; align-items:flex-start; gap:0.7rem; margin-bottom:1.4rem; }
+.consent-cb   { width:15px;height:15px;margin-top:0.12rem;accent-color:var(--orange);cursor:pointer;flex-shrink:0; }
+.consent-lbl  { font-size:0.78rem; color:var(--text-secondary); cursor:pointer; line-height:1.45; }
 
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+/* SUCCESS */
+.success-alert { display:none; background:rgba(44,199,193,0.08); border:1px solid rgba(44,199,193,0.28); border-radius:13px; padding:1.2rem 1.4rem; margin-top:1.2rem; text-align:center; }
+.success-alert.visible { display:block; }
+.success-icon  { font-size:2rem; display:block; margin-bottom:0.45rem; }
+.success-title { font-family:'Nunito',sans-serif; font-weight:800; font-size:1.05rem; color:var(--teal); margin-bottom:0.32rem; }
+.success-msg   { font-size:0.83rem; color:var(--text-secondary); line-height:1.55; }
 
-/* SUCCESS NOTIFICATION */
-.success-alert {
-  display: none;
-  background: linear-gradient(135deg, rgba(44,199,193,0.15), rgba(132,216,80,0.12));
-  border: 1px solid rgba(44,199,193,0.35);
-  border-radius: 14px;
-  padding: 1.25rem 1.5rem;
-  margin-top: 1.25rem;
-  text-align: center;
-}
-.success-alert.visible { display: block; }
-.success-alert-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
-.success-alert-title {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: var(--teal);
-  margin-bottom: 0.35rem;
-}
-.success-alert-msg { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; }
-
-/* VALIDATION */
-.field-valid .form-input { border-color: var(--teal); }
-
-/* OFFICE HOURS STRIP */
-.hours-strip {
-  background: linear-gradient(135deg, rgba(240,138,46,0.1), rgba(236,58,107,0.08));
-  border: 1px solid rgba(240,138,46,0.2);
-  border-radius: 16px;
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-.hours-strip-icon { font-size: 1.8rem; flex-shrink: 0; }
-.hours-strip-title { font-weight: 700; color: white; font-size: 0.92rem; margin-bottom: 0.25rem; }
-.hours-strip-val { font-size: 0.83rem; color: var(--text-muted); }
+/* HOURS STRIP */
+.hours-strip { background:rgba(240,138,46,0.08); border:1px solid rgba(240,138,46,0.2); border-radius:14px; padding:1.15rem 1.5rem; display:flex; align-items:center; gap:0.9rem; margin-bottom:2rem; }
+.hours-icon  { font-size:1.7rem; flex-shrink:0; }
+.hours-title { font-weight:700; color:var(--text-primary); font-size:0.9rem; margin-bottom:0.22rem; transition:color 0.3s; }
+.hours-val   { font-size:0.81rem; color:var(--text-secondary); transition:color 0.3s; }
 
 /* FAQ */
-.faq-section { margin-top: 4rem; }
-.faq-title { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: -0.03em; color: white; margin-bottom: 1.5rem; text-align: center; }
-.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-.faq-item {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--glass-border);
-  border-radius: 14px;
-  padding: 1.25rem;
-}
-.faq-q { font-weight: 700; font-size: 0.92rem; color: white; margin-bottom: 0.5rem; }
-.faq-a { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+.faq-section { margin-top:4rem; }
+.faq-title { font-family:'Nunito',sans-serif; font-weight:900; font-size:1.55rem; letter-spacing:-0.02em; color:var(--text-primary); margin-bottom:1.4rem; text-align:center; transition:color 0.3s; }
+.faq-grid  { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+.faq-item  { background:var(--bg-card-alt); border:1px solid var(--border); border-radius:13px; padding:1.2rem; transition:var(--transition-theme); }
+.faq-q     { font-weight:700; font-size:0.9rem; color:var(--text-primary); margin-bottom:0.48rem; transition:color 0.3s; }
+.faq-a     { font-size:0.82rem; color:var(--text-secondary); line-height:1.62; transition:color 0.3s; }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .contact-layout { grid-template-columns: 1fr; }
-  .contact-info-card { position: static; }
-  .faq-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } .quick-actions { grid-template-columns: 1fr 1fr; } }
+@media (max-width:900px) { .contact-layout{grid-template-columns:1fr;} .contact-info-card{position:static;} .faq-grid{grid-template-columns:1fr;} }
+@media (max-width:540px) { .form-row{grid-template-columns:1fr;} .quick-actions{grid-template-columns:1fr 1fr;} }
 </style>
 </head>
 <body>
-
-<!-- ── NAVIGATION ─────────────────────────────────────── -->
 <nav class="site-nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <div class="nav-logo-badge">🧭</div>
-      <span class="nav-logo-name">Discovery Adventures</span>
-    </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="index.html" class="nav-logo"><div class="nav-logo-badge">🧭</div><span class="nav-logo-name">Discovery Adventures</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="tours.html" class="nav-link">Tours</a>
+      <a href="index.html"    class="nav-link">Home</a>
+      <a href="tours.html"    class="nav-link">Tours</a>
       <a href="calendar.html" class="nav-link">Calendar</a>
-      <a href="blog.html" class="nav-link">Blog</a>
-      <a href="contact.html" class="nav-link active">Contact</a>
+      <a href="blog.html"     class="nav-link">Blog</a>
+      <a href="contact.html"  class="nav-link active">Contact</a>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()"></button>
       <a href="tours.html" class="nav-cta">Book Now</a>
     </div>
   </div>
 </nav>
 
-<!-- ── PAGE HERO ───────────────────────────────────────── -->
 <section class="page-hero">
   <div class="container page-hero-inner">
     <div class="section-eyebrow">💬 Get in Touch</div>
-    <h1 class="section-title" style="font-size:clamp(2.5rem,6vw,4rem);">Contact Us</h1>
-    <p class="section-subtitle">Questions about a trip? Ready to book? We're fast to respond — usually within a few hours on WhatsApp.</p>
+    <h1 class="section-title" style="font-size:clamp(2.4rem,6vw,3.8rem);">Contact Us</h1>
+    <p class="section-subtitle">Questions about an Ontario trip? Ready to book? We're fast on WhatsApp — usually within 30 minutes during operating hours.</p>
   </div>
 </section>
 
-<!-- ── CONTACT SECTION ────────────────────────────────── -->
-<section class="section" style="background:linear-gradient(180deg,#0f1929 0%,var(--navy) 100%);">
+<section class="section" style="background:var(--section-alt);transition:var(--transition-theme);">
   <div class="container">
 
-    <!-- Hours Strip -->
+    <!-- Hours strip -->
     <div class="hours-strip">
-      <div class="hours-strip-icon">🕐</div>
+      <div class="hours-icon">🕐</div>
       <div>
-        <div class="hours-strip-title">We typically respond within 2–4 hours</div>
-        <div class="hours-strip-val">Operating Hours: Monday – Sunday, 7:00 AM – 9:00 PM Eastern Time · WhatsApp is fastest for booking questions</div>
+        <div class="hours-title">We typically respond within 2–4 hours</div>
+        <div class="hours-val">Mon – Sun: 7:00 AM – 9:00 PM Eastern Time · WhatsApp is fastest for booking questions and availability checks</div>
       </div>
     </div>
 
     <div class="contact-layout">
 
-      <!-- LEFT: CONTACT INFO -->
+      <!-- LEFT: INFO -->
       <div>
         <div class="contact-info-card">
-          <div class="contact-info-header">
-            <div class="contact-logo">
-              <div class="nav-logo-badge" style="width:32px;height:32px;font-size:0.9rem;">🧭</div>
-              <span style="font-family:'Nunito',sans-serif;font-weight:900;font-size:0.95rem;background:var(--grad-main);-webkit-background-clip:text;background-clip:text;color:transparent;">Discovery Adventures</span>
-            </div>
-            <div class="contact-info-title">Let's Plan Your Adventure</div>
-            <div class="contact-info-sub">Reach out via any channel below — our team of guides is ready to help you find the perfect day trip.</div>
-          </div>
-
-          <div class="contact-info-body">
-            <div class="contact-method">
-              <div class="contact-method-icon" style="background:rgba(37,211,102,0.15); border:1px solid rgba(37,211,102,0.25);">📞</div>
-              <div>
-                <div class="contact-method-title">Call or WhatsApp</div>
-                <div class="contact-method-val"><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
-                <div class="contact-method-sub">Fastest response — usually within 30 minutes during operating hours</div>
-              </div>
-            </div>
-            <div class="contact-method">
-              <div class="contact-method-icon" style="background:rgba(240,138,46,0.15); border:1px solid rgba(240,138,46,0.25);">✉️</div>
-              <div>
-                <div class="contact-method-title">Email</div>
-                <div class="contact-method-val"><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
-                <div class="contact-method-sub">For detailed inquiries, invoices, and group bookings</div>
-              </div>
-            </div>
-            <div class="contact-method">
-              <div class="contact-method-icon" style="background:rgba(44,199,193,0.15); border:1px solid rgba(44,199,193,0.25);">📍</div>
-              <div>
-                <div class="contact-method-title">Pickup Points</div>
-                <div class="contact-method-val" style="color:rgba(255,255,255,0.85);">Toronto & Calgary, Canada</div>
-                <div class="contact-method-sub">Exact pickup locations confirmed on booking</div>
-              </div>
-            </div>
-            <div class="contact-method">
-              <div class="contact-method-icon" style="background:rgba(177,74,214,0.15); border:1px solid rgba(177,74,214,0.25);">🌐</div>
-              <div>
-                <div class="contact-method-title">Social Media</div>
-                <div class="contact-method-val" style="color:rgba(255,255,255,0.85);">@DiscoveryAdventuresCA</div>
-                <div class="contact-method-sub">Instagram · Facebook · TikTok</div>
-              </div>
+          <div class="contact-info-hdr">
+            <div class="contact-info-hdr-inner">
+              <a href="index.html" class="nav-logo" style="display:inline-flex;">
+                <div class="nav-logo-badge" style="width:30px;height:30px;font-size:0.85rem;">🧭</div>
+                <span class="nav-logo-name" style="font-size:0.9rem;">Discovery Adventures</span>
+              </a>
+              <div class="contact-info-title">Let's Plan Your Ontario Adventure</div>
+              <div class="contact-info-sub">Reach out any way you prefer — our team of GTA-based guides is ready to help you find the perfect Ontario day trip.</div>
             </div>
           </div>
-
+          <div class="contact-methods">
+            <div class="contact-method">
+              <div class="cm-icon" style="background:rgba(37,211,102,0.15);border:1px solid rgba(37,211,102,0.25);">📞</div>
+              <div>
+                <div class="cm-label">Call or WhatsApp</div>
+                <div class="cm-val"><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
+                <div class="cm-sub">Fastest response — usually within 30 min during hours</div>
+              </div>
+            </div>
+            <div class="contact-method">
+              <div class="cm-icon" style="background:rgba(240,138,46,0.15);border:1px solid rgba(240,138,46,0.25);">✉️</div>
+              <div>
+                <div class="cm-label">Email</div>
+                <div class="cm-val"><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
+                <div class="cm-sub">For detailed inquiries, invoices, and group bookings</div>
+              </div>
+            </div>
+            <div class="contact-method">
+              <div class="cm-icon" style="background:rgba(44,199,193,0.15);border:1px solid rgba(44,199,193,0.25);">📍</div>
+              <div>
+                <div class="cm-label">Pickup Point</div>
+                <div class="cm-val" style="color:var(--text-primary);">Union Station, Toronto, ON</div>
+                <div class="cm-sub">Exact pickup confirmed on booking · GTA departures only</div>
+              </div>
+            </div>
+            <div class="contact-method">
+              <div class="cm-icon" style="background:rgba(177,74,214,0.15);border:1px solid rgba(177,74,214,0.25);">🌐</div>
+              <div>
+                <div class="cm-label">Social Media</div>
+                <div class="cm-val" style="color:var(--text-primary);">@DiscoveryAdventuresON</div>
+                <div class="cm-sub">Instagram · Facebook · TikTok</div>
+              </div>
+            </div>
+          </div>
           <!-- Quick Actions -->
           <div class="quick-actions">
-            <a href="https://wa.me/16472672948?text=Hi!%20I%27d%20like%20to%20book%20a%20tour." class="quick-action-btn whatsapp" target="_blank" rel="noopener">
-              <span>💬</span>WhatsApp Us
-            </a>
-            <a href="mailto:info.techchimps@gmail.com?subject=Tour Inquiry" class="quick-action-btn email">
-              <span>📧</span>Send Email
-            </a>
-            <a href="tel:+16472672948" class="quick-action-btn phone">
-              <span>📞</span>Call Now
-            </a>
-            <a href="https://maps.google.com?q=Toronto,Ontario,Canada" target="_blank" rel="noopener" class="quick-action-btn map">
-              <span>🗺️</span>Find Us
-            </a>
+            <a href="https://wa.me/16472672948?text=Hi!%20I'd%20like%20to%20book%20an%20Ontario%20day%20trip." class="qa-btn wa" target="_blank" rel="noopener"><span class="qa-btn-icon">💬</span>WhatsApp Us</a>
+            <a href="mailto:info.techchimps@gmail.com?subject=Ontario Tour Inquiry" class="qa-btn email"><span class="qa-btn-icon">📧</span>Send Email</a>
+            <a href="tel:+16472672948" class="qa-btn phone"><span class="qa-btn-icon">📞</span>Call Now</a>
+            <a href="https://maps.google.com?q=Union+Station+Toronto+Ontario" target="_blank" rel="noopener" class="qa-btn map"><span class="qa-btn-icon">🗺️</span>Find Us</a>
           </div>
-
-          <!-- Map Placeholder -->
-          <div class="map-placeholder" onclick="window.open('https://maps.google.com?q=Toronto,Ontario,Canada','_blank')">
-            <div class="map-placeholder-icon">🗺️</div>
-            <div class="map-placeholder-text">Departures from downtown Toronto & Calgary</div>
-            <div class="map-placeholder-link">Open in Google Maps →</div>
+          <!-- Map -->
+          <div class="map-placeholder" onclick="window.open('https://maps.google.com?q=Union+Station+Toronto+Ontario','_blank')">
+            <div class="map-ph-icon">🗺️</div>
+            <div class="map-ph-text">All tours depart from Union Station, Toronto</div>
+            <div class="map-ph-link">Open in Google Maps →</div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT: INQUIRY FORM -->
+      <!-- RIGHT: FORM -->
       <div>
-        <div class="inquiry-form-card">
-          <div class="inquiry-form-header">
-            <div class="inquiry-form-title">Send Us a Message</div>
-            <div class="inquiry-form-sub">Fill in your details and we'll get back to you within 24 hours — or message us on WhatsApp for an instant reply.</div>
+        <div class="inquiry-card">
+          <div class="inquiry-hdr">
+            <div class="inquiry-title">Send Us a Message</div>
+            <div class="inquiry-sub">Fill in your details and we'll get back to you within 24 hours — or message us on WhatsApp for an instant reply.</div>
           </div>
-          <div class="inquiry-form-body">
+          <div class="inquiry-body">
             <div class="form-row">
-              <div class="form-group" id="grpName">
+              <div class="form-group">
                 <label class="form-label" for="cName">Full Name</label>
                 <input class="form-input" type="text" id="cName" placeholder="Jane Smith" autocomplete="name"/>
                 <div class="form-error" id="eName">Please enter your name.</div>
               </div>
-              <div class="form-group" id="grpEmail">
+              <div class="form-group">
                 <label class="form-label" for="cEmail">Email Address</label>
                 <input class="form-input" type="email" id="cEmail" placeholder="jane@example.com" autocomplete="email"/>
                 <div class="form-error" id="eEmail">Enter a valid email address.</div>
               </div>
             </div>
-
-            <div class="form-group" id="grpSubject">
+            <div class="form-group">
               <label class="form-label" for="cSubject">Subject</label>
               <select class="form-input" id="cSubject">
                 <option value="">— What's your question about? —</option>
                 <option>Booking a Tour</option>
                 <option>Group Booking (5+ guests)</option>
-                <option>Pricing & Availability</option>
-                <option>Custom / Private Tours</option>
+                <option>Pricing &amp; Availability</option>
+                <option>Custom / Private Tour</option>
                 <option>Accessibility Requirements</option>
                 <option>General Inquiry</option>
               </select>
               <div class="form-error" id="eSubject">Please select a subject.</div>
             </div>
-
-            <div class="form-group" id="grpMessage">
+            <div class="form-group">
               <label class="form-label" for="cMessage">Your Message</label>
-              <textarea class="form-input" id="cMessage" rows="5" placeholder="Tell us what you're planning — which tour you're interested in, how many people, preferred dates, any special requirements..."></textarea>
-              <div class="form-error" id="eMessage">Please write a message (at least 20 characters).</div>
+              <textarea class="form-input" id="cMessage" rows="5" placeholder="Tell us which Ontario tour you're interested in, how many guests, preferred dates, and any special requirements..."></textarea>
+              <div class="form-error" id="eMessage">Please write at least 20 characters.</div>
             </div>
-
-            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem;">
-              <input type="checkbox" id="cConsent" style="width:16px;height:16px;accent-color:var(--orange);cursor:pointer;"/>
-              <label for="cConsent" style="font-size:0.8rem; color:var(--text-muted); cursor:pointer; line-height:1.4;">
-                I agree to receive occasional emails about upcoming tours and deals. I can unsubscribe anytime.
-              </label>
+            <div class="consent-row">
+              <input type="checkbox" class="consent-cb" id="cConsent"/>
+              <label class="consent-lbl" for="cConsent">I agree to receive occasional emails about upcoming Ontario tours and seasonal deals. I can unsubscribe at any time.</label>
             </div>
-
-            <button class="btn btn-primary w-full" id="sendBtn" style="border-radius:12px; justify-content:center; font-size:1rem; padding:1rem;">
-              ✉️ Send Message
-            </button>
-
+            <button class="btn btn-primary w-full" id="sendBtn" style="border-radius:11px;justify-content:center;font-size:0.98rem;padding:1rem;">✉️ Send Message</button>
             <div class="success-alert" id="successAlert">
-              <span class="success-alert-icon">🎉</span>
-              <div class="success-alert-title">Message Sent!</div>
-              <div class="success-alert-msg">Thanks for reaching out! We'll get back to you within 24 hours — or reach us faster on WhatsApp at <a href="https://wa.me/16472672948" style="color:var(--yellow)">+1 (647) 267-2948</a>.</div>
+              <span class="success-icon">🎉</span>
+              <div class="success-title">Message Sent!</div>
+              <div class="success-msg">Thanks for reaching out! We'll reply within 24 hours. For faster service, WhatsApp us at <a href="https://wa.me/16472672948" style="color:var(--yellow);">+1 (647) 267-2948</a>.</div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- FAQ -->
     <div class="faq-section">
       <div class="faq-title">Frequently Asked Questions</div>
       <div class="faq-grid">
-        <div class="faq-item">
-          <div class="faq-q">How far in advance should I book?</div>
-          <div class="faq-a">Most summer weekend departures sell out 2–3 weeks in advance. We recommend booking at least 2 weeks ahead for peak season (June–September) and 1 week ahead in shoulder season.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">What's your cancellation policy?</div>
-          <div class="faq-a">Cancellations made 7+ days before departure receive a full credit toward a future trip. Cancellations within 7 days are non-refundable but can be transferred to another guest.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Do you offer private group tours?</div>
-          <div class="faq-a">Yes! Groups of 6+ guests can request private departures on custom dates. Contact us via WhatsApp or email for pricing and availability on private bookings.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Are trips accessible for people with limited mobility?</div>
-          <div class="faq-a">Some tours have limited accessibility due to terrain. Please contact us before booking and we'll advise on which trips suit your needs and what accommodations we can offer.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">What happens if a trip is cancelled due to weather?</div>
-          <div class="faq-a">Safety is always first. If we cancel due to severe weather or road conditions, you'll receive a full credit or refund within 48 hours. We'll notify you as early as possible.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Is there a minimum group size?</div>
-          <div class="faq-a">Yes — a minimum of 4 guests is required for a trip to run. If you're booking solo or as a pair, we'll add you to an existing group. Contact us and we'll match you up.</div>
-        </div>
+        <div class="faq-item"><div class="faq-q">How far in advance should I book?</div><div class="faq-a">Summer weekend departures sell out 2–3 weeks ahead. We recommend booking at least 2 weeks before your preferred date in peak season (June–September) and 1 week in shoulder season.</div></div>
+        <div class="faq-item"><div class="faq-q">What's your cancellation policy?</div><div class="faq-a">Cancellations made 7+ days before departure receive a full credit toward a future trip. Cancellations within 7 days are non-refundable but can be transferred to another guest at no charge.</div></div>
+        <div class="faq-item"><div class="faq-q">Do you offer private group tours?</div><div class="faq-a">Yes. Groups of 6+ guests can request private departures on custom dates for any of our four Ontario routes. Contact us via WhatsApp for group pricing and availability.</div></div>
+        <div class="faq-item"><div class="faq-q">Are tours accessible for limited mobility?</div><div class="faq-a">The Niagara Falls and Muskoka Lakes tours have the highest accessibility. Algonquin and Bruce Peninsula involve uneven terrain. Please contact us before booking and we'll advise on suitability.</div></div>
+        <div class="faq-item"><div class="faq-q">What happens if a trip is cancelled due to weather?</div><div class="faq-a">Safety first — always. If we cancel due to severe weather or road conditions, you'll receive a full credit or refund within 48 hours. We notify you as early as possible, usually the evening before.</div></div>
+        <div class="faq-item"><div class="faq-q">What is the minimum group size?</div><div class="faq-a">Minimum 4 guests per departure. If you're booking solo or as a pair, contact us and we'll happily match you with an existing group on your preferred date at no extra cost.</div></div>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- ── SITE FOOTER ─────────────────────────────────────── -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <a href="index.html" class="nav-logo" style="display:inline-flex; margin-bottom:0.5rem;">
-          <div class="nav-logo-badge">🧭</div>
-          <span class="nav-logo-name" style="font-size:1.1rem;">Discovery Adventures</span>
-        </a>
-        <p class="footer-brand-desc">Expert-guided Canadian day trips. All-inclusive, safety-first, unforgettable.</p>
-      </div>
-      <div>
-        <div class="footer-col-title">Navigate</div>
-        <div class="footer-links">
-          <a href="index.html">Home</a>
-          <a href="tours.html">All Tours</a>
-          <a href="calendar.html">Calendar</a>
-          <a href="blog.html">Blog</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Adventures</div>
-        <div class="footer-links">
-          <a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a>
-          <a href="tour-detail.html?tour=banff-lake-louise">Banff & Lake Louise</a>
-          <a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a>
-          <a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Contact</div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">📞</span>
-          <div><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div>
-        </div>
-        <div class="footer-contact-row">
-          <span class="footer-contact-icon">✉️</span>
-          <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-legal">© 2026 Discovery Adventures · All prices in CAD · All sales final · Subject to availability</div>
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram">📸</a>
-        <a href="#" aria-label="Facebook">👥</a>
-        <a href="https://wa.me/16472672948" aria-label="WhatsApp">💬</a>
-      </div>
-    </div>
+<footer class="site-footer"><div class="container">
+  <div class="footer-grid">
+    <div><a href="index.html" class="nav-logo" style="display:inline-flex;margin-bottom:0.5rem;"><div class="nav-logo-badge">🧭</div><span class="nav-logo-name">Discovery Adventures</span></a><p class="footer-brand-desc">Expert-guided Ontario day trips from the GTA. All-inclusive, safety-first, unforgettable.</p></div>
+    <div><div class="footer-col-title">Navigate</div><div class="footer-links"><a href="index.html">Home</a><a href="tours.html">All Tours</a><a href="calendar.html">Calendar</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div></div>
+    <div><div class="footer-col-title">Destinations</div><div class="footer-links"><a href="tour-detail.html?tour=niagara-falls">Niagara Falls</a><a href="tour-detail.html?tour=muskoka-lakes">Muskoka Lakes</a><a href="tour-detail.html?tour=algonquin-canoe">Algonquin Park</a><a href="tour-detail.html?tour=bruce-peninsula">Bruce Peninsula</a></div></div>
+    <div><div class="footer-col-title">Contact</div><div class="footer-contact-row">📞 <div><a href="https://wa.me/16472672948">+1 (647) 267-2948</a></div></div><div class="footer-contact-row">✉️ <div><a href="mailto:info.techchimps@gmail.com">info.techchimps@gmail.com</a></div></div></div>
   </div>
-</footer>
+  <div class="footer-bottom"><div class="footer-legal">© 2026 Discovery Adventures · All prices in CAD · All sales final · Subject to availability</div><div class="footer-social"><a href="#">📸</a><a href="#">👥</a><a href="https://wa.me/16472672948">💬</a></div></div>
+</div></footer>
 
+<script src="js/theme.js"></script>
 <script>
-/* ── NAV TOGGLE ──────────────────────────────────────── */
-document.getElementById('navToggle').addEventListener('click', () => {
-  document.getElementById('navLinks').classList.toggle('open');
-});
-
-/* ── REAL-TIME VALIDATION ─────────────────────────────── */
-function validateField(inputId, errId, condition) {
-  const input = document.getElementById(inputId);
-  const err   = document.getElementById(errId);
-  input.addEventListener('blur', () => {
-    if (condition(input.value)) {
-      input.classList.remove('error');
-      err.classList.remove('visible');
-    } else {
-      input.classList.add('error');
-      err.classList.add('visible');
-    }
-  });
-  input.addEventListener('input', () => {
-    if (condition(input.value)) {
-      input.classList.remove('error');
-      err.classList.remove('visible');
-    }
-  });
+/* Real-time validation */
+function live(inputId, errId, cond) {
+  const el = document.getElementById(inputId), er = document.getElementById(errId);
+  ['blur','input'].forEach(ev => el.addEventListener(ev, () => {
+    if (cond(el.value)) { el.classList.remove('error'); er.classList.remove('visible'); }
+    else                { el.classList.add('error');    er.classList.add('visible'); }
+  }));
 }
+live('cName',    'eName',    v => v.trim().length >= 2);
+live('cEmail',   'eEmail',   v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()));
+live('cSubject', 'eSubject', v => v !== '');
+live('cMessage', 'eMessage', v => v.trim().length >= 20);
 
-validateField('cName',    'eName',    v => v.trim().length >= 2);
-validateField('cEmail',   'eEmail',   v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()));
-validateField('cSubject', 'eSubject', v => v !== '');
-validateField('cMessage', 'eMessage', v => v.trim().length >= 20);
-
-/* ── FORM SUBMISSION ─────────────────────────────────── */
 document.getElementById('sendBtn').addEventListener('click', () => {
-  const name    = document.getElementById('cName').value.trim();
-  const email   = document.getElementById('cEmail').value.trim();
-  const subject = document.getElementById('cSubject').value;
-  const message = document.getElementById('cMessage').value.trim();
-
-  let valid = true;
-  const check = (inputId, errId, cond) => {
-    const inp = document.getElementById(inputId);
-    const err = document.getElementById(errId);
-    if (cond) {
-      inp.classList.remove('error'); err.classList.remove('visible');
-    } else {
-      inp.classList.add('error'); err.classList.add('visible'); valid = false;
-    }
-  };
-
-  check('cName',    'eName',    name.length >= 2);
-  check('cEmail',   'eEmail',   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-  check('cSubject', 'eSubject', subject !== '');
-  check('cMessage', 'eMessage', message.length >= 20);
-
-  if (!valid) return;
-
-  // Simulate send — show success
+  const fields = [
+    ['cName','eName', v => v.trim().length>=2],
+    ['cEmail','eEmail', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())],
+    ['cSubject','eSubject', v => v!==''],
+    ['cMessage','eMessage', v => v.trim().length>=20]
+  ];
+  let ok = true;
+  fields.forEach(([id,eid,fn]) => {
+    const el=document.getElementById(id), er=document.getElementById(eid);
+    if (fn(el.value)) { el.classList.remove('error'); er.classList.remove('visible'); }
+    else              { el.classList.add('error');    er.classList.add('visible'); ok=false; }
+  });
+  if (!ok) return;
   const btn = document.getElementById('sendBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Sending...';
-
+  btn.disabled = true; btn.textContent = '⏳ Sending…';
   setTimeout(() => {
     btn.textContent = '✓ Message Sent!';
     btn.style.background = 'var(--grad-green)';
     document.getElementById('successAlert').classList.add('visible');
-    // Scroll to success
-    document.getElementById('successAlert').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, 1200);
+    document.getElementById('successAlert').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }, 1100);
 });
 </script>
 </body>
